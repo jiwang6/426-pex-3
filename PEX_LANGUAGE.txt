@@ -96,13 +96,14 @@ Productions
 	num_parameters = {one} parameter | {multiple} num_parameters comma parameter;
 	parameter = expression;
 
-	equivalence_comparator = {equals} equivalent | {not_equal} not_equivalent;
-	great_less_comparator = {greater_than} greater_than | {less_than} less_than | {greater_than_or_equal} greater_than_or_equal | {less_than_or_equal} less_than_or_equal;
 
 	expression = {or_comparison} expression or expression7 | {pass} expression7;
 	expression7 = {and_comparison} expression7 and expression6 | {pass} expression6;
-	expression6 = {equality_comparison} expression6 equivalence_comparator expression5 | {pass} expression5;
-	expression5 = {greater_less_than_comparison} [first]:expression4 great_less_comparator [second]:expression4 | {pass} expression4; // don't allow chaining of boolean operations
+	expression6 = {equals} expression6 equivalent expression5 | {not_equal} expression6 not_equivalent expression5 | {pass} expression5;
+	expression5 = {greater_than} [first]:expression4 greater_than [second]:expression4 | {less_than} [first]:expression4 less_than [second]:expression4 | 
+					{greater_than_or_equal} [first]:expression4 greater_than_or_equal [second]:expression4 | {less_than_or_equal} [first]:expression4 less_than_or_equal [second]:expression4 | {pass} expression4;
+		// don't allow chaining of boolean operations
+
 	expression4 = {add} expression4 plus expression3 | {subtract} expression4 sub expression3 | {pass} expression3;
 	expression3 = {multiply} expression3 mult expression2 | {division} expression3 div expression2 | {pass} expression2;
 	expression2 = {negative} sub expression1 | {pass} expression1;

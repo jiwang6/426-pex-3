@@ -49,19 +49,17 @@ public interface Analysis : Switch
     void CaseAOneNumParameters(AOneNumParameters node);
     void CaseAMultipleNumParameters(AMultipleNumParameters node);
     void CaseAParameter(AParameter node);
-    void CaseAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node);
-    void CaseANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node);
-    void CaseAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node);
-    void CaseALessThanGreatLessComparator(ALessThanGreatLessComparator node);
-    void CaseAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node);
-    void CaseALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node);
     void CaseAOrComparisonExpression(AOrComparisonExpression node);
     void CaseAPassExpression(APassExpression node);
     void CaseAAndComparisonExpression7(AAndComparisonExpression7 node);
     void CaseAPassExpression7(APassExpression7 node);
-    void CaseAEqualityComparisonExpression6(AEqualityComparisonExpression6 node);
+    void CaseAEqualsExpression6(AEqualsExpression6 node);
+    void CaseANotEqualExpression6(ANotEqualExpression6 node);
     void CaseAPassExpression6(APassExpression6 node);
-    void CaseAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node);
+    void CaseAGreaterThanExpression5(AGreaterThanExpression5 node);
+    void CaseALessThanExpression5(ALessThanExpression5 node);
+    void CaseAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node);
+    void CaseALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node);
     void CaseAPassExpression5(APassExpression5 node);
     void CaseAAddExpression4(AAddExpression4 node);
     void CaseASubtractExpression4(ASubtractExpression4 node);
@@ -313,30 +311,6 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
-    public virtual void CaseAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseALessThanGreatLessComparator(ALessThanGreatLessComparator node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node)
-    {
-        DefaultCase(node);
-    }
     public virtual void CaseAOrComparisonExpression(AOrComparisonExpression node)
     {
         DefaultCase(node);
@@ -353,7 +327,11 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
-    public virtual void CaseAEqualityComparisonExpression6(AEqualityComparisonExpression6 node)
+    public virtual void CaseAEqualsExpression6(AEqualsExpression6 node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseANotEqualExpression6(ANotEqualExpression6 node)
     {
         DefaultCase(node);
     }
@@ -361,7 +339,19 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
-    public virtual void CaseAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node)
+    public virtual void CaseAGreaterThanExpression5(AGreaterThanExpression5 node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseALessThanExpression5(ALessThanExpression5 node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
     {
         DefaultCase(node);
     }
@@ -1456,120 +1446,6 @@ public class DepthFirstAdapter : AnalysisAdapter
         }
         OutAParameter(node);
     }
-    public virtual void InAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node)
-    {
-        InAEqualsEquivalenceComparator(node);
-        if(node.GetEquivalent() != null)
-        {
-            node.GetEquivalent().Apply(this);
-        }
-        OutAEqualsEquivalenceComparator(node);
-    }
-    public virtual void InANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node)
-    {
-        InANotEqualEquivalenceComparator(node);
-        if(node.GetNotEquivalent() != null)
-        {
-            node.GetNotEquivalent().Apply(this);
-        }
-        OutANotEqualEquivalenceComparator(node);
-    }
-    public virtual void InAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node)
-    {
-        InAGreaterThanGreatLessComparator(node);
-        if(node.GetGreaterThan() != null)
-        {
-            node.GetGreaterThan().Apply(this);
-        }
-        OutAGreaterThanGreatLessComparator(node);
-    }
-    public virtual void InALessThanGreatLessComparator(ALessThanGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutALessThanGreatLessComparator(ALessThanGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseALessThanGreatLessComparator(ALessThanGreatLessComparator node)
-    {
-        InALessThanGreatLessComparator(node);
-        if(node.GetLessThan() != null)
-        {
-            node.GetLessThan().Apply(this);
-        }
-        OutALessThanGreatLessComparator(node);
-    }
-    public virtual void InAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node)
-    {
-        InAGreaterThanOrEqualGreatLessComparator(node);
-        if(node.GetGreaterThanOrEqual() != null)
-        {
-            node.GetGreaterThanOrEqual().Apply(this);
-        }
-        OutAGreaterThanOrEqualGreatLessComparator(node);
-    }
-    public virtual void InALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node)
-    {
-        InALessThanOrEqualGreatLessComparator(node);
-        if(node.GetLessThanOrEqual() != null)
-        {
-            node.GetLessThanOrEqual().Apply(this);
-        }
-        OutALessThanOrEqualGreatLessComparator(node);
-    }
     public virtual void InAOrComparisonExpression(AOrComparisonExpression node)
     {
         DefaultIn(node);
@@ -1662,32 +1538,59 @@ public class DepthFirstAdapter : AnalysisAdapter
         }
         OutAPassExpression7(node);
     }
-    public virtual void InAEqualityComparisonExpression6(AEqualityComparisonExpression6 node)
+    public virtual void InAEqualsExpression6(AEqualsExpression6 node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutAEqualityComparisonExpression6(AEqualityComparisonExpression6 node)
+    public virtual void OutAEqualsExpression6(AEqualsExpression6 node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseAEqualityComparisonExpression6(AEqualityComparisonExpression6 node)
+    public override void CaseAEqualsExpression6(AEqualsExpression6 node)
     {
-        InAEqualityComparisonExpression6(node);
+        InAEqualsExpression6(node);
         if(node.GetExpression6() != null)
         {
             node.GetExpression6().Apply(this);
         }
-        if(node.GetEquivalenceComparator() != null)
+        if(node.GetEquivalent() != null)
         {
-            node.GetEquivalenceComparator().Apply(this);
+            node.GetEquivalent().Apply(this);
         }
         if(node.GetExpression5() != null)
         {
             node.GetExpression5().Apply(this);
         }
-        OutAEqualityComparisonExpression6(node);
+        OutAEqualsExpression6(node);
+    }
+    public virtual void InANotEqualExpression6(ANotEqualExpression6 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutANotEqualExpression6(ANotEqualExpression6 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseANotEqualExpression6(ANotEqualExpression6 node)
+    {
+        InANotEqualExpression6(node);
+        if(node.GetExpression6() != null)
+        {
+            node.GetExpression6().Apply(this);
+        }
+        if(node.GetNotEquivalent() != null)
+        {
+            node.GetNotEquivalent().Apply(this);
+        }
+        if(node.GetExpression5() != null)
+        {
+            node.GetExpression5().Apply(this);
+        }
+        OutANotEqualExpression6(node);
     }
     public virtual void InAPassExpression6(APassExpression6 node)
     {
@@ -1708,32 +1611,113 @@ public class DepthFirstAdapter : AnalysisAdapter
         }
         OutAPassExpression6(node);
     }
-    public virtual void InAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node)
+    public virtual void InAGreaterThanExpression5(AGreaterThanExpression5 node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node)
+    public virtual void OutAGreaterThanExpression5(AGreaterThanExpression5 node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node)
+    public override void CaseAGreaterThanExpression5(AGreaterThanExpression5 node)
     {
-        InAGreaterLessThanComparisonExpression5(node);
+        InAGreaterThanExpression5(node);
         if(node.GetFirst() != null)
         {
             node.GetFirst().Apply(this);
         }
-        if(node.GetGreatLessComparator() != null)
+        if(node.GetGreaterThan() != null)
         {
-            node.GetGreatLessComparator().Apply(this);
+            node.GetGreaterThan().Apply(this);
         }
         if(node.GetSecond() != null)
         {
             node.GetSecond().Apply(this);
         }
-        OutAGreaterLessThanComparisonExpression5(node);
+        OutAGreaterThanExpression5(node);
+    }
+    public virtual void InALessThanExpression5(ALessThanExpression5 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutALessThanExpression5(ALessThanExpression5 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseALessThanExpression5(ALessThanExpression5 node)
+    {
+        InALessThanExpression5(node);
+        if(node.GetFirst() != null)
+        {
+            node.GetFirst().Apply(this);
+        }
+        if(node.GetLessThan() != null)
+        {
+            node.GetLessThan().Apply(this);
+        }
+        if(node.GetSecond() != null)
+        {
+            node.GetSecond().Apply(this);
+        }
+        OutALessThanExpression5(node);
+    }
+    public virtual void InAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+    {
+        InAGreaterThanOrEqualExpression5(node);
+        if(node.GetFirst() != null)
+        {
+            node.GetFirst().Apply(this);
+        }
+        if(node.GetGreaterThanOrEqual() != null)
+        {
+            node.GetGreaterThanOrEqual().Apply(this);
+        }
+        if(node.GetSecond() != null)
+        {
+            node.GetSecond().Apply(this);
+        }
+        OutAGreaterThanOrEqualExpression5(node);
+    }
+    public virtual void InALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
+    {
+        InALessThanOrEqualExpression5(node);
+        if(node.GetFirst() != null)
+        {
+            node.GetFirst().Apply(this);
+        }
+        if(node.GetLessThanOrEqual() != null)
+        {
+            node.GetLessThanOrEqual().Apply(this);
+        }
+        if(node.GetSecond() != null)
+        {
+            node.GetSecond().Apply(this);
+        }
+        OutALessThanOrEqualExpression5(node);
     }
     public virtual void InAPassExpression5(APassExpression5 node)
     {
@@ -2953,120 +2937,6 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         }
         OutAParameter(node);
     }
-    public virtual void InAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAEqualsEquivalenceComparator(AEqualsEquivalenceComparator node)
-    {
-        InAEqualsEquivalenceComparator(node);
-        if(node.GetEquivalent() != null)
-        {
-            node.GetEquivalent().Apply(this);
-        }
-        OutAEqualsEquivalenceComparator(node);
-    }
-    public virtual void InANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseANotEqualEquivalenceComparator(ANotEqualEquivalenceComparator node)
-    {
-        InANotEqualEquivalenceComparator(node);
-        if(node.GetNotEquivalent() != null)
-        {
-            node.GetNotEquivalent().Apply(this);
-        }
-        OutANotEqualEquivalenceComparator(node);
-    }
-    public virtual void InAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAGreaterThanGreatLessComparator(AGreaterThanGreatLessComparator node)
-    {
-        InAGreaterThanGreatLessComparator(node);
-        if(node.GetGreaterThan() != null)
-        {
-            node.GetGreaterThan().Apply(this);
-        }
-        OutAGreaterThanGreatLessComparator(node);
-    }
-    public virtual void InALessThanGreatLessComparator(ALessThanGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutALessThanGreatLessComparator(ALessThanGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseALessThanGreatLessComparator(ALessThanGreatLessComparator node)
-    {
-        InALessThanGreatLessComparator(node);
-        if(node.GetLessThan() != null)
-        {
-            node.GetLessThan().Apply(this);
-        }
-        OutALessThanGreatLessComparator(node);
-    }
-    public virtual void InAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAGreaterThanOrEqualGreatLessComparator(AGreaterThanOrEqualGreatLessComparator node)
-    {
-        InAGreaterThanOrEqualGreatLessComparator(node);
-        if(node.GetGreaterThanOrEqual() != null)
-        {
-            node.GetGreaterThanOrEqual().Apply(this);
-        }
-        OutAGreaterThanOrEqualGreatLessComparator(node);
-    }
-    public virtual void InALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseALessThanOrEqualGreatLessComparator(ALessThanOrEqualGreatLessComparator node)
-    {
-        InALessThanOrEqualGreatLessComparator(node);
-        if(node.GetLessThanOrEqual() != null)
-        {
-            node.GetLessThanOrEqual().Apply(this);
-        }
-        OutALessThanOrEqualGreatLessComparator(node);
-    }
     public virtual void InAOrComparisonExpression(AOrComparisonExpression node)
     {
         DefaultIn(node);
@@ -3159,32 +3029,59 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         }
         OutAPassExpression7(node);
     }
-    public virtual void InAEqualityComparisonExpression6(AEqualityComparisonExpression6 node)
+    public virtual void InAEqualsExpression6(AEqualsExpression6 node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutAEqualityComparisonExpression6(AEqualityComparisonExpression6 node)
+    public virtual void OutAEqualsExpression6(AEqualsExpression6 node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseAEqualityComparisonExpression6(AEqualityComparisonExpression6 node)
+    public override void CaseAEqualsExpression6(AEqualsExpression6 node)
     {
-        InAEqualityComparisonExpression6(node);
+        InAEqualsExpression6(node);
         if(node.GetExpression5() != null)
         {
             node.GetExpression5().Apply(this);
         }
-        if(node.GetEquivalenceComparator() != null)
+        if(node.GetEquivalent() != null)
         {
-            node.GetEquivalenceComparator().Apply(this);
+            node.GetEquivalent().Apply(this);
         }
         if(node.GetExpression6() != null)
         {
             node.GetExpression6().Apply(this);
         }
-        OutAEqualityComparisonExpression6(node);
+        OutAEqualsExpression6(node);
+    }
+    public virtual void InANotEqualExpression6(ANotEqualExpression6 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutANotEqualExpression6(ANotEqualExpression6 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseANotEqualExpression6(ANotEqualExpression6 node)
+    {
+        InANotEqualExpression6(node);
+        if(node.GetExpression5() != null)
+        {
+            node.GetExpression5().Apply(this);
+        }
+        if(node.GetNotEquivalent() != null)
+        {
+            node.GetNotEquivalent().Apply(this);
+        }
+        if(node.GetExpression6() != null)
+        {
+            node.GetExpression6().Apply(this);
+        }
+        OutANotEqualExpression6(node);
     }
     public virtual void InAPassExpression6(APassExpression6 node)
     {
@@ -3205,32 +3102,113 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         }
         OutAPassExpression6(node);
     }
-    public virtual void InAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node)
+    public virtual void InAGreaterThanExpression5(AGreaterThanExpression5 node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node)
+    public virtual void OutAGreaterThanExpression5(AGreaterThanExpression5 node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseAGreaterLessThanComparisonExpression5(AGreaterLessThanComparisonExpression5 node)
+    public override void CaseAGreaterThanExpression5(AGreaterThanExpression5 node)
     {
-        InAGreaterLessThanComparisonExpression5(node);
+        InAGreaterThanExpression5(node);
         if(node.GetSecond() != null)
         {
             node.GetSecond().Apply(this);
         }
-        if(node.GetGreatLessComparator() != null)
+        if(node.GetGreaterThan() != null)
         {
-            node.GetGreatLessComparator().Apply(this);
+            node.GetGreaterThan().Apply(this);
         }
         if(node.GetFirst() != null)
         {
             node.GetFirst().Apply(this);
         }
-        OutAGreaterLessThanComparisonExpression5(node);
+        OutAGreaterThanExpression5(node);
+    }
+    public virtual void InALessThanExpression5(ALessThanExpression5 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutALessThanExpression5(ALessThanExpression5 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseALessThanExpression5(ALessThanExpression5 node)
+    {
+        InALessThanExpression5(node);
+        if(node.GetSecond() != null)
+        {
+            node.GetSecond().Apply(this);
+        }
+        if(node.GetLessThan() != null)
+        {
+            node.GetLessThan().Apply(this);
+        }
+        if(node.GetFirst() != null)
+        {
+            node.GetFirst().Apply(this);
+        }
+        OutALessThanExpression5(node);
+    }
+    public virtual void InAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+    {
+        InAGreaterThanOrEqualExpression5(node);
+        if(node.GetSecond() != null)
+        {
+            node.GetSecond().Apply(this);
+        }
+        if(node.GetGreaterThanOrEqual() != null)
+        {
+            node.GetGreaterThanOrEqual().Apply(this);
+        }
+        if(node.GetFirst() != null)
+        {
+            node.GetFirst().Apply(this);
+        }
+        OutAGreaterThanOrEqualExpression5(node);
+    }
+    public virtual void InALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
+    {
+        InALessThanOrEqualExpression5(node);
+        if(node.GetSecond() != null)
+        {
+            node.GetSecond().Apply(this);
+        }
+        if(node.GetLessThanOrEqual() != null)
+        {
+            node.GetLessThanOrEqual().Apply(this);
+        }
+        if(node.GetFirst() != null)
+        {
+            node.GetFirst().Apply(this);
+        }
+        OutALessThanOrEqualExpression5(node);
     }
     public virtual void InAPassExpression5(APassExpression5 node)
     {

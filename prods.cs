@@ -96,14 +96,6 @@ public abstract class PParameter : Node
 {
 }
 
-public abstract class PEquivalenceComparator : Node
-{
-}
-
-public abstract class PGreatLessComparator : Node
-{
-}
-
 public abstract class PExpression : Node
 {
 }
@@ -4851,474 +4843,6 @@ public sealed class AParameter : PParameter
     }
 
 }
-public sealed class AEqualsEquivalenceComparator : PEquivalenceComparator
-{
-    private TEquivalent _equivalent_;
-
-    public AEqualsEquivalenceComparator ()
-    {
-    }
-
-    public AEqualsEquivalenceComparator (
-            TEquivalent _equivalent_
-    )
-    {
-        SetEquivalent (_equivalent_);
-    }
-
-    public override Object Clone()
-    {
-        return new AEqualsEquivalenceComparator (
-            (TEquivalent)CloneNode (_equivalent_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAEqualsEquivalenceComparator(this);
-    }
-
-    public TEquivalent GetEquivalent ()
-    {
-        return _equivalent_;
-    }
-
-    public void SetEquivalent (TEquivalent node)
-    {
-        if(_equivalent_ != null)
-        {
-            _equivalent_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _equivalent_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_equivalent_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _equivalent_ == child )
-        {
-            _equivalent_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _equivalent_ == oldChild )
-        {
-            SetEquivalent ((TEquivalent) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ANotEqualEquivalenceComparator : PEquivalenceComparator
-{
-    private TNotEquivalent _not_equivalent_;
-
-    public ANotEqualEquivalenceComparator ()
-    {
-    }
-
-    public ANotEqualEquivalenceComparator (
-            TNotEquivalent _not_equivalent_
-    )
-    {
-        SetNotEquivalent (_not_equivalent_);
-    }
-
-    public override Object Clone()
-    {
-        return new ANotEqualEquivalenceComparator (
-            (TNotEquivalent)CloneNode (_not_equivalent_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseANotEqualEquivalenceComparator(this);
-    }
-
-    public TNotEquivalent GetNotEquivalent ()
-    {
-        return _not_equivalent_;
-    }
-
-    public void SetNotEquivalent (TNotEquivalent node)
-    {
-        if(_not_equivalent_ != null)
-        {
-            _not_equivalent_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _not_equivalent_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_not_equivalent_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _not_equivalent_ == child )
-        {
-            _not_equivalent_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _not_equivalent_ == oldChild )
-        {
-            SetNotEquivalent ((TNotEquivalent) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AGreaterThanGreatLessComparator : PGreatLessComparator
-{
-    private TGreaterThan _greater_than_;
-
-    public AGreaterThanGreatLessComparator ()
-    {
-    }
-
-    public AGreaterThanGreatLessComparator (
-            TGreaterThan _greater_than_
-    )
-    {
-        SetGreaterThan (_greater_than_);
-    }
-
-    public override Object Clone()
-    {
-        return new AGreaterThanGreatLessComparator (
-            (TGreaterThan)CloneNode (_greater_than_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAGreaterThanGreatLessComparator(this);
-    }
-
-    public TGreaterThan GetGreaterThan ()
-    {
-        return _greater_than_;
-    }
-
-    public void SetGreaterThan (TGreaterThan node)
-    {
-        if(_greater_than_ != null)
-        {
-            _greater_than_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _greater_than_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_greater_than_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _greater_than_ == child )
-        {
-            _greater_than_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _greater_than_ == oldChild )
-        {
-            SetGreaterThan ((TGreaterThan) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ALessThanGreatLessComparator : PGreatLessComparator
-{
-    private TLessThan _less_than_;
-
-    public ALessThanGreatLessComparator ()
-    {
-    }
-
-    public ALessThanGreatLessComparator (
-            TLessThan _less_than_
-    )
-    {
-        SetLessThan (_less_than_);
-    }
-
-    public override Object Clone()
-    {
-        return new ALessThanGreatLessComparator (
-            (TLessThan)CloneNode (_less_than_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseALessThanGreatLessComparator(this);
-    }
-
-    public TLessThan GetLessThan ()
-    {
-        return _less_than_;
-    }
-
-    public void SetLessThan (TLessThan node)
-    {
-        if(_less_than_ != null)
-        {
-            _less_than_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _less_than_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_less_than_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _less_than_ == child )
-        {
-            _less_than_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _less_than_ == oldChild )
-        {
-            SetLessThan ((TLessThan) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AGreaterThanOrEqualGreatLessComparator : PGreatLessComparator
-{
-    private TGreaterThanOrEqual _greater_than_or_equal_;
-
-    public AGreaterThanOrEqualGreatLessComparator ()
-    {
-    }
-
-    public AGreaterThanOrEqualGreatLessComparator (
-            TGreaterThanOrEqual _greater_than_or_equal_
-    )
-    {
-        SetGreaterThanOrEqual (_greater_than_or_equal_);
-    }
-
-    public override Object Clone()
-    {
-        return new AGreaterThanOrEqualGreatLessComparator (
-            (TGreaterThanOrEqual)CloneNode (_greater_than_or_equal_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAGreaterThanOrEqualGreatLessComparator(this);
-    }
-
-    public TGreaterThanOrEqual GetGreaterThanOrEqual ()
-    {
-        return _greater_than_or_equal_;
-    }
-
-    public void SetGreaterThanOrEqual (TGreaterThanOrEqual node)
-    {
-        if(_greater_than_or_equal_ != null)
-        {
-            _greater_than_or_equal_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _greater_than_or_equal_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_greater_than_or_equal_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _greater_than_or_equal_ == child )
-        {
-            _greater_than_or_equal_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _greater_than_or_equal_ == oldChild )
-        {
-            SetGreaterThanOrEqual ((TGreaterThanOrEqual) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ALessThanOrEqualGreatLessComparator : PGreatLessComparator
-{
-    private TLessThanOrEqual _less_than_or_equal_;
-
-    public ALessThanOrEqualGreatLessComparator ()
-    {
-    }
-
-    public ALessThanOrEqualGreatLessComparator (
-            TLessThanOrEqual _less_than_or_equal_
-    )
-    {
-        SetLessThanOrEqual (_less_than_or_equal_);
-    }
-
-    public override Object Clone()
-    {
-        return new ALessThanOrEqualGreatLessComparator (
-            (TLessThanOrEqual)CloneNode (_less_than_or_equal_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseALessThanOrEqualGreatLessComparator(this);
-    }
-
-    public TLessThanOrEqual GetLessThanOrEqual ()
-    {
-        return _less_than_or_equal_;
-    }
-
-    public void SetLessThanOrEqual (TLessThanOrEqual node)
-    {
-        if(_less_than_or_equal_ != null)
-        {
-            _less_than_or_equal_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _less_than_or_equal_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_less_than_or_equal_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _less_than_or_equal_ == child )
-        {
-            _less_than_or_equal_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _less_than_or_equal_ == oldChild )
-        {
-            SetLessThanOrEqual ((TLessThanOrEqual) newChild);
-            return;
-        }
-    }
-
-}
 public sealed class AOrComparisonExpression : PExpression
 {
     private PExpression _expression_;
@@ -5787,39 +5311,39 @@ public sealed class APassExpression7 : PExpression7
     }
 
 }
-public sealed class AEqualityComparisonExpression6 : PExpression6
+public sealed class AEqualsExpression6 : PExpression6
 {
     private PExpression6 _expression6_;
-    private PEquivalenceComparator _equivalence_comparator_;
+    private TEquivalent _equivalent_;
     private PExpression5 _expression5_;
 
-    public AEqualityComparisonExpression6 ()
+    public AEqualsExpression6 ()
     {
     }
 
-    public AEqualityComparisonExpression6 (
+    public AEqualsExpression6 (
             PExpression6 _expression6_,
-            PEquivalenceComparator _equivalence_comparator_,
+            TEquivalent _equivalent_,
             PExpression5 _expression5_
     )
     {
         SetExpression6 (_expression6_);
-        SetEquivalenceComparator (_equivalence_comparator_);
+        SetEquivalent (_equivalent_);
         SetExpression5 (_expression5_);
     }
 
     public override Object Clone()
     {
-        return new AEqualityComparisonExpression6 (
+        return new AEqualsExpression6 (
             (PExpression6)CloneNode (_expression6_),
-            (PEquivalenceComparator)CloneNode (_equivalence_comparator_),
+            (TEquivalent)CloneNode (_equivalent_),
             (PExpression5)CloneNode (_expression5_)
         );
     }
 
     public override void Apply(Switch sw)
     {
-        ((Analysis) sw).CaseAEqualityComparisonExpression6(this);
+        ((Analysis) sw).CaseAEqualsExpression6(this);
     }
 
     public PExpression6 GetExpression6 ()
@@ -5846,16 +5370,16 @@ public sealed class AEqualityComparisonExpression6 : PExpression6
 
         _expression6_ = node;
     }
-    public PEquivalenceComparator GetEquivalenceComparator ()
+    public TEquivalent GetEquivalent ()
     {
-        return _equivalence_comparator_;
+        return _equivalent_;
     }
 
-    public void SetEquivalenceComparator (PEquivalenceComparator node)
+    public void SetEquivalent (TEquivalent node)
     {
-        if(_equivalence_comparator_ != null)
+        if(_equivalent_ != null)
         {
-            _equivalence_comparator_.Parent(null);
+            _equivalent_.Parent(null);
         }
 
         if(node != null)
@@ -5868,7 +5392,7 @@ public sealed class AEqualityComparisonExpression6 : PExpression6
             node.Parent(this);
         }
 
-        _equivalence_comparator_ = node;
+        _equivalent_ = node;
     }
     public PExpression5 GetExpression5 ()
     {
@@ -5899,7 +5423,7 @@ public sealed class AEqualityComparisonExpression6 : PExpression6
     {
         return ""
             + ToString (_expression6_)
-            + ToString (_equivalence_comparator_)
+            + ToString (_equivalent_)
             + ToString (_expression5_)
         ;
     }
@@ -5911,9 +5435,9 @@ public sealed class AEqualityComparisonExpression6 : PExpression6
             _expression6_ = null;
             return;
         }
-        if ( _equivalence_comparator_ == child )
+        if ( _equivalent_ == child )
         {
-            _equivalence_comparator_ = null;
+            _equivalent_ = null;
             return;
         }
         if ( _expression5_ == child )
@@ -5930,9 +5454,165 @@ public sealed class AEqualityComparisonExpression6 : PExpression6
             SetExpression6 ((PExpression6) newChild);
             return;
         }
-        if ( _equivalence_comparator_ == oldChild )
+        if ( _equivalent_ == oldChild )
         {
-            SetEquivalenceComparator ((PEquivalenceComparator) newChild);
+            SetEquivalent ((TEquivalent) newChild);
+            return;
+        }
+        if ( _expression5_ == oldChild )
+        {
+            SetExpression5 ((PExpression5) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class ANotEqualExpression6 : PExpression6
+{
+    private PExpression6 _expression6_;
+    private TNotEquivalent _not_equivalent_;
+    private PExpression5 _expression5_;
+
+    public ANotEqualExpression6 ()
+    {
+    }
+
+    public ANotEqualExpression6 (
+            PExpression6 _expression6_,
+            TNotEquivalent _not_equivalent_,
+            PExpression5 _expression5_
+    )
+    {
+        SetExpression6 (_expression6_);
+        SetNotEquivalent (_not_equivalent_);
+        SetExpression5 (_expression5_);
+    }
+
+    public override Object Clone()
+    {
+        return new ANotEqualExpression6 (
+            (PExpression6)CloneNode (_expression6_),
+            (TNotEquivalent)CloneNode (_not_equivalent_),
+            (PExpression5)CloneNode (_expression5_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseANotEqualExpression6(this);
+    }
+
+    public PExpression6 GetExpression6 ()
+    {
+        return _expression6_;
+    }
+
+    public void SetExpression6 (PExpression6 node)
+    {
+        if(_expression6_ != null)
+        {
+            _expression6_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression6_ = node;
+    }
+    public TNotEquivalent GetNotEquivalent ()
+    {
+        return _not_equivalent_;
+    }
+
+    public void SetNotEquivalent (TNotEquivalent node)
+    {
+        if(_not_equivalent_ != null)
+        {
+            _not_equivalent_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _not_equivalent_ = node;
+    }
+    public PExpression5 GetExpression5 ()
+    {
+        return _expression5_;
+    }
+
+    public void SetExpression5 (PExpression5 node)
+    {
+        if(_expression5_ != null)
+        {
+            _expression5_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression5_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_expression6_)
+            + ToString (_not_equivalent_)
+            + ToString (_expression5_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _expression6_ == child )
+        {
+            _expression6_ = null;
+            return;
+        }
+        if ( _not_equivalent_ == child )
+        {
+            _not_equivalent_ = null;
+            return;
+        }
+        if ( _expression5_ == child )
+        {
+            _expression5_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _expression6_ == oldChild )
+        {
+            SetExpression6 ((PExpression6) newChild);
+            return;
+        }
+        if ( _not_equivalent_ == oldChild )
+        {
+            SetNotEquivalent ((TNotEquivalent) newChild);
             return;
         }
         if ( _expression5_ == oldChild )
@@ -6021,39 +5701,39 @@ public sealed class APassExpression6 : PExpression6
     }
 
 }
-public sealed class AGreaterLessThanComparisonExpression5 : PExpression5
+public sealed class AGreaterThanExpression5 : PExpression5
 {
     private PExpression4 _first_;
-    private PGreatLessComparator _great_less_comparator_;
+    private TGreaterThan _greater_than_;
     private PExpression4 _second_;
 
-    public AGreaterLessThanComparisonExpression5 ()
+    public AGreaterThanExpression5 ()
     {
     }
 
-    public AGreaterLessThanComparisonExpression5 (
+    public AGreaterThanExpression5 (
             PExpression4 _first_,
-            PGreatLessComparator _great_less_comparator_,
+            TGreaterThan _greater_than_,
             PExpression4 _second_
     )
     {
         SetFirst (_first_);
-        SetGreatLessComparator (_great_less_comparator_);
+        SetGreaterThan (_greater_than_);
         SetSecond (_second_);
     }
 
     public override Object Clone()
     {
-        return new AGreaterLessThanComparisonExpression5 (
+        return new AGreaterThanExpression5 (
             (PExpression4)CloneNode (_first_),
-            (PGreatLessComparator)CloneNode (_great_less_comparator_),
+            (TGreaterThan)CloneNode (_greater_than_),
             (PExpression4)CloneNode (_second_)
         );
     }
 
     public override void Apply(Switch sw)
     {
-        ((Analysis) sw).CaseAGreaterLessThanComparisonExpression5(this);
+        ((Analysis) sw).CaseAGreaterThanExpression5(this);
     }
 
     public PExpression4 GetFirst ()
@@ -6080,16 +5760,16 @@ public sealed class AGreaterLessThanComparisonExpression5 : PExpression5
 
         _first_ = node;
     }
-    public PGreatLessComparator GetGreatLessComparator ()
+    public TGreaterThan GetGreaterThan ()
     {
-        return _great_less_comparator_;
+        return _greater_than_;
     }
 
-    public void SetGreatLessComparator (PGreatLessComparator node)
+    public void SetGreaterThan (TGreaterThan node)
     {
-        if(_great_less_comparator_ != null)
+        if(_greater_than_ != null)
         {
-            _great_less_comparator_.Parent(null);
+            _greater_than_.Parent(null);
         }
 
         if(node != null)
@@ -6102,7 +5782,7 @@ public sealed class AGreaterLessThanComparisonExpression5 : PExpression5
             node.Parent(this);
         }
 
-        _great_less_comparator_ = node;
+        _greater_than_ = node;
     }
     public PExpression4 GetSecond ()
     {
@@ -6133,7 +5813,7 @@ public sealed class AGreaterLessThanComparisonExpression5 : PExpression5
     {
         return ""
             + ToString (_first_)
-            + ToString (_great_less_comparator_)
+            + ToString (_greater_than_)
             + ToString (_second_)
         ;
     }
@@ -6145,9 +5825,9 @@ public sealed class AGreaterLessThanComparisonExpression5 : PExpression5
             _first_ = null;
             return;
         }
-        if ( _great_less_comparator_ == child )
+        if ( _greater_than_ == child )
         {
-            _great_less_comparator_ = null;
+            _greater_than_ = null;
             return;
         }
         if ( _second_ == child )
@@ -6164,9 +5844,477 @@ public sealed class AGreaterLessThanComparisonExpression5 : PExpression5
             SetFirst ((PExpression4) newChild);
             return;
         }
-        if ( _great_less_comparator_ == oldChild )
+        if ( _greater_than_ == oldChild )
         {
-            SetGreatLessComparator ((PGreatLessComparator) newChild);
+            SetGreaterThan ((TGreaterThan) newChild);
+            return;
+        }
+        if ( _second_ == oldChild )
+        {
+            SetSecond ((PExpression4) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class ALessThanExpression5 : PExpression5
+{
+    private PExpression4 _first_;
+    private TLessThan _less_than_;
+    private PExpression4 _second_;
+
+    public ALessThanExpression5 ()
+    {
+    }
+
+    public ALessThanExpression5 (
+            PExpression4 _first_,
+            TLessThan _less_than_,
+            PExpression4 _second_
+    )
+    {
+        SetFirst (_first_);
+        SetLessThan (_less_than_);
+        SetSecond (_second_);
+    }
+
+    public override Object Clone()
+    {
+        return new ALessThanExpression5 (
+            (PExpression4)CloneNode (_first_),
+            (TLessThan)CloneNode (_less_than_),
+            (PExpression4)CloneNode (_second_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseALessThanExpression5(this);
+    }
+
+    public PExpression4 GetFirst ()
+    {
+        return _first_;
+    }
+
+    public void SetFirst (PExpression4 node)
+    {
+        if(_first_ != null)
+        {
+            _first_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _first_ = node;
+    }
+    public TLessThan GetLessThan ()
+    {
+        return _less_than_;
+    }
+
+    public void SetLessThan (TLessThan node)
+    {
+        if(_less_than_ != null)
+        {
+            _less_than_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _less_than_ = node;
+    }
+    public PExpression4 GetSecond ()
+    {
+        return _second_;
+    }
+
+    public void SetSecond (PExpression4 node)
+    {
+        if(_second_ != null)
+        {
+            _second_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _second_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_first_)
+            + ToString (_less_than_)
+            + ToString (_second_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _first_ == child )
+        {
+            _first_ = null;
+            return;
+        }
+        if ( _less_than_ == child )
+        {
+            _less_than_ = null;
+            return;
+        }
+        if ( _second_ == child )
+        {
+            _second_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _first_ == oldChild )
+        {
+            SetFirst ((PExpression4) newChild);
+            return;
+        }
+        if ( _less_than_ == oldChild )
+        {
+            SetLessThan ((TLessThan) newChild);
+            return;
+        }
+        if ( _second_ == oldChild )
+        {
+            SetSecond ((PExpression4) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class AGreaterThanOrEqualExpression5 : PExpression5
+{
+    private PExpression4 _first_;
+    private TGreaterThanOrEqual _greater_than_or_equal_;
+    private PExpression4 _second_;
+
+    public AGreaterThanOrEqualExpression5 ()
+    {
+    }
+
+    public AGreaterThanOrEqualExpression5 (
+            PExpression4 _first_,
+            TGreaterThanOrEqual _greater_than_or_equal_,
+            PExpression4 _second_
+    )
+    {
+        SetFirst (_first_);
+        SetGreaterThanOrEqual (_greater_than_or_equal_);
+        SetSecond (_second_);
+    }
+
+    public override Object Clone()
+    {
+        return new AGreaterThanOrEqualExpression5 (
+            (PExpression4)CloneNode (_first_),
+            (TGreaterThanOrEqual)CloneNode (_greater_than_or_equal_),
+            (PExpression4)CloneNode (_second_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAGreaterThanOrEqualExpression5(this);
+    }
+
+    public PExpression4 GetFirst ()
+    {
+        return _first_;
+    }
+
+    public void SetFirst (PExpression4 node)
+    {
+        if(_first_ != null)
+        {
+            _first_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _first_ = node;
+    }
+    public TGreaterThanOrEqual GetGreaterThanOrEqual ()
+    {
+        return _greater_than_or_equal_;
+    }
+
+    public void SetGreaterThanOrEqual (TGreaterThanOrEqual node)
+    {
+        if(_greater_than_or_equal_ != null)
+        {
+            _greater_than_or_equal_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _greater_than_or_equal_ = node;
+    }
+    public PExpression4 GetSecond ()
+    {
+        return _second_;
+    }
+
+    public void SetSecond (PExpression4 node)
+    {
+        if(_second_ != null)
+        {
+            _second_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _second_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_first_)
+            + ToString (_greater_than_or_equal_)
+            + ToString (_second_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _first_ == child )
+        {
+            _first_ = null;
+            return;
+        }
+        if ( _greater_than_or_equal_ == child )
+        {
+            _greater_than_or_equal_ = null;
+            return;
+        }
+        if ( _second_ == child )
+        {
+            _second_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _first_ == oldChild )
+        {
+            SetFirst ((PExpression4) newChild);
+            return;
+        }
+        if ( _greater_than_or_equal_ == oldChild )
+        {
+            SetGreaterThanOrEqual ((TGreaterThanOrEqual) newChild);
+            return;
+        }
+        if ( _second_ == oldChild )
+        {
+            SetSecond ((PExpression4) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class ALessThanOrEqualExpression5 : PExpression5
+{
+    private PExpression4 _first_;
+    private TLessThanOrEqual _less_than_or_equal_;
+    private PExpression4 _second_;
+
+    public ALessThanOrEqualExpression5 ()
+    {
+    }
+
+    public ALessThanOrEqualExpression5 (
+            PExpression4 _first_,
+            TLessThanOrEqual _less_than_or_equal_,
+            PExpression4 _second_
+    )
+    {
+        SetFirst (_first_);
+        SetLessThanOrEqual (_less_than_or_equal_);
+        SetSecond (_second_);
+    }
+
+    public override Object Clone()
+    {
+        return new ALessThanOrEqualExpression5 (
+            (PExpression4)CloneNode (_first_),
+            (TLessThanOrEqual)CloneNode (_less_than_or_equal_),
+            (PExpression4)CloneNode (_second_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseALessThanOrEqualExpression5(this);
+    }
+
+    public PExpression4 GetFirst ()
+    {
+        return _first_;
+    }
+
+    public void SetFirst (PExpression4 node)
+    {
+        if(_first_ != null)
+        {
+            _first_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _first_ = node;
+    }
+    public TLessThanOrEqual GetLessThanOrEqual ()
+    {
+        return _less_than_or_equal_;
+    }
+
+    public void SetLessThanOrEqual (TLessThanOrEqual node)
+    {
+        if(_less_than_or_equal_ != null)
+        {
+            _less_than_or_equal_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _less_than_or_equal_ = node;
+    }
+    public PExpression4 GetSecond ()
+    {
+        return _second_;
+    }
+
+    public void SetSecond (PExpression4 node)
+    {
+        if(_second_ != null)
+        {
+            _second_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _second_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_first_)
+            + ToString (_less_than_or_equal_)
+            + ToString (_second_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _first_ == child )
+        {
+            _first_ = null;
+            return;
+        }
+        if ( _less_than_or_equal_ == child )
+        {
+            _less_than_or_equal_ = null;
+            return;
+        }
+        if ( _second_ == child )
+        {
+            _second_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _first_ == oldChild )
+        {
+            SetFirst ((PExpression4) newChild);
+            return;
+        }
+        if ( _less_than_or_equal_ == oldChild )
+        {
+            SetLessThanOrEqual ((TLessThanOrEqual) newChild);
             return;
         }
         if ( _second_ == oldChild )

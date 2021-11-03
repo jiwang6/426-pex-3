@@ -125,6 +125,21 @@ namespace CS426.analysis
             }
         }
 
+        public override void OutAParenthsisExpression1(AParenthsisExpression1 node)
+        {
+            Definition expressionDefinition;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDefinition))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expressionDefinition);
+            }
+        }
 
         // --------------------------------------------------------------
         // EXPRESSION 2
@@ -209,7 +224,41 @@ namespace CS426.analysis
             else if (!(expression3Def is NumberDefinition))
             {
                 PrintWarning(node.GetMult(), "Cannot multiply something of type " 
-                    + expression3Def.name + "with" + expression2Def.name);
+                    + expression3Def.name);
+            }
+            else
+            {
+                // Decorate ourselves (either expression2def or expression3def would work)
+                decoratedParseTree.Add(node, expression3Def);
+            }
+        }
+
+        public override void OutADivisionExpression3(ADivisionExpression3 node)
+        {
+            Definition expression3Def;
+            Definition expression2Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression3(), out expression3Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression2(), out expression2Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression3Def.GetType() != expression2Def.GetType())
+            {
+                PrintWarning(node.GetDiv(), "Cannot divide " + expression3Def.name
+                    + " by " + expression2Def.name);
+            }
+            else if (!(expression3Def is NumberDefinition))
+            {
+                PrintWarning(node.GetDiv(), "Cannot divide something of type "
+                    + expression3Def.name);
             }
             else
             {
@@ -262,7 +311,40 @@ namespace CS426.analysis
             else if (!(expression4Type is NumberDefinition))
             {
                 PrintWarning(node.GetPlus(), "Could not add something of type" 
-                    + expression4Type.name + "with" + expression3Type.name);
+                    + expression4Type.name);
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression4Type);
+            }
+        }
+
+        public override void OutASubtractExpression4(ASubtractExpression4 node)
+        {
+            Definition expression4Type;
+            Definition expression3Type;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression4(), out expression4Type))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression3(), out expression3Type))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression4Type.name != expression3Type.name)
+            {
+                PrintWarning(node.GetSub(), "Could not subtract " + expression4Type.name
+                    + " and " + expression3Type.name);
+            }
+            else if (!(expression4Type is NumberDefinition))
+            {
+                PrintWarning(node.GetSub(), "Could not subtract something of type"
+                    + expression4Type.name);
             }
             else
             {
@@ -287,6 +369,138 @@ namespace CS426.analysis
             else
             {
                 decoratedParseTree.Add(node, expression4Def);
+            }
+        }
+
+        public override void OutAGreaterThanExpression5(AGreaterThanExpression5 node)
+        {
+            Definition firstExpression4Def;
+            Definition secondExpression4Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetFirst(), out firstExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetSecond(), out secondExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (firstExpression4Def.name != secondExpression4Def.name)
+            {
+                PrintWarning(node.GetGreaterThan(), "Could not compare " + firstExpression4Def.name
+                    + " and " + secondExpression4Def.name);
+            }
+            else if (!(firstExpression4Def is NumberDefinition))
+            {
+                PrintWarning(node.GetGreaterThan(), "Could not compare something of type"
+                    + firstExpression4Def.name);
+            }
+            else
+            {
+                decoratedParseTree.Add(node, firstExpression4Def);
+            }
+        }
+
+        public override void OutALessThanExpression5(ALessThanExpression5 node)
+        {
+            Definition firstExpression4Def;
+            Definition secondExpression4Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetFirst(), out firstExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetSecond(), out secondExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (firstExpression4Def.name != secondExpression4Def.name)
+            {
+                PrintWarning(node.GetLessThan(), "Could not compare " + firstExpression4Def.name
+                    + " and " + secondExpression4Def.name);
+            }
+            else if (!(firstExpression4Def is NumberDefinition))
+            {
+                PrintWarning(node.GetLessThan(), "Could not compare something of type"
+                    + firstExpression4Def.name);
+            }
+            else
+            {
+                decoratedParseTree.Add(node, firstExpression4Def);
+            }
+        }
+
+        public override void OutAGreaterThanOrEqualExpression5(AGreaterThanOrEqualExpression5 node)
+        {
+            Definition firstExpression4Def;
+            Definition secondExpression4Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetFirst(), out firstExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetSecond(), out secondExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (firstExpression4Def.name != secondExpression4Def.name)
+            {
+                PrintWarning(node.GetGreaterThanOrEqual(), "Could not compare " + firstExpression4Def.name
+                    + " and " + secondExpression4Def.name);
+            }
+            else if (!(firstExpression4Def is NumberDefinition))
+            {
+                PrintWarning(node.GetGreaterThanOrEqual(), "Could not compare something of type"
+                    + firstExpression4Def.name);
+            }
+            else
+            {
+                decoratedParseTree.Add(node, firstExpression4Def);
+            }
+        }
+
+        public override void OutALessThanOrEqualExpression5(ALessThanOrEqualExpression5 node)
+        {
+            Definition firstExpression4Def;
+            Definition secondExpression4Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetFirst(), out firstExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetSecond(), out secondExpression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (firstExpression4Def.name != secondExpression4Def.name)
+            {
+                PrintWarning(node.GetLessThanOrEqual(), "Could not compare " + firstExpression4Def.name
+                    + " and " + secondExpression4Def.name);
+            }
+            else if (!(firstExpression4Def is NumberDefinition))
+            {
+                PrintWarning(node.GetLessThanOrEqual(), "Could not compare something of type"
+                    + firstExpression4Def.name);
+            }
+            else
+            {
+                decoratedParseTree.Add(node, firstExpression4Def);
             }
         }
 

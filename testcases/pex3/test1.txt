@@ -1,6 +1,7 @@
 ﻿function foo() {
     int x;
-    x = 10;
+    string s;
+    x = 10 + (5 - s);
 }
 
 function main() {
