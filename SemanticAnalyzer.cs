@@ -29,11 +29,16 @@ namespace CS426.analysis
             Definition intDefinition = new NumberDefinition();
             intDefinition.name = "int";
 
+            // Create Definition for Float
+            // Definition floatDefinition = new NumberDefinition();
+            // intDefinition.name = "float";
+
             // Create Definition for Strings
             Definition strDefinition = new StringDefinition();
             strDefinition.name = "string";
 
             globalSymbolTable.Add("int", intDefinition);
+            // globalSymbolTable.Add("float", intDefinition);
             globalSymbolTable.Add("string", strDefinition);
         }
 
@@ -49,6 +54,17 @@ namespace CS426.analysis
             // Adds this node to the decorated parse tree
             decoratedParseTree.Add(node, intDefinition);
         }
+
+        /* public override void OutAFloatOperand(AFloatOperand node)
+        {
+            // Creates the Definition Object we will add to our parse tree
+            Definition floatDefinition = new NumberDefinition();
+            floatDefinition.name = "float";
+
+            // Adds this node to the decorated parse tree
+            decoratedParseTree.Add(node, floatDefinition);
+        }
+        */
 
         public override void OutAStringOperand(AStringOperand node)
         {
@@ -89,15 +105,74 @@ namespace CS426.analysis
                 decoratedParseTree.Add(node, v.variableType);
             }
         }
+        // --------------------------------------------------------------
+        // EXPRESSION 1
+        // --------------------------------------------------------------
+
+        public override void OutAPassExpression1(APassExpression1 node)
+        {
+            Definition operandDefinition;
+
+            if (!decoratedParseTree.TryGetValue(node.GetOperand(), out operandDefinition))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, operandDefinition);
+            }
+        }
+
+
+        // --------------------------------------------------------------
+        // EXPRESSION 2
+        // --------------------------------------------------------------
+        public override void OutAPassExpression2(APassExpression2 node)
+        {
+            Definition expression1Def;
+            
+            if (!decoratedParseTree.TryGetValue(node.GetExpression1(), out expression1Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression1Def);
+            }
+        }
+
+        public override void OutANegativeExpression2(ANegativeExpression2 node)
+        {
+            Definition expression1Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression1(), out expression1Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!(expression1Def is NumberDefinition))
+            {
+                PrintWarning(node.GetSub(), "Only a number can be negated");
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression1Def);
+            }
+        }
 
         // --------------------------------------------------------------
         // EXPRESSION 3
         // --------------------------------------------------------------
         public override void OutAPassExpression3(APassExpression3 node)
         {
-            Definition operandDefinition;
-            
-            if (!decoratedParseTree.TryGetValue(node.GetOperand(), out operandDefinition))
+            Definition expression2Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression2(), out expression2Def))
             {
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
@@ -105,34 +180,48 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, operandDefinition);
+                decoratedParseTree.Add(node, expression2Def);
             }
         }
-
-        public override void OutANegativeExpression3(ANegativeExpression3 node)
+        
+        public override void OutAMultiplyExpression3(AMultiplyExpression3 node)
         {
-            Definition operandDefinition;
+            Definition expression3Def;
+            Definition expression2Def;
 
-            if (!decoratedParseTree.TryGetValue(node.GetOperand(), out operandDefinition))
+            if (!decoratedParseTree.TryGetValue(node.GetExpression3(), out expression3Def))
             {
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (!(operandDefinition is NumberDefinition))
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression2(), out expression2Def))
             {
-                PrintWarning(node.GetSub(), "Only a number can be negated");
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression3Def.GetType() != expression2Def.GetType())
+            {
+                PrintWarning(node.GetMult(), "Cannot multiply " + expression3Def.name 
+                    + " by " + expression2Def.name);
+            }
+            else if (!(expression3Def is NumberDefinition))
+            {
+                PrintWarning(node.GetMult(), "Cannot multiply something of type " 
+                    + expression3Def.name + "with" + expression2Def.name);
             }
             else
             {
-                decoratedParseTree.Add(node, operandDefinition);
+                // Decorate ourselves (either expression2def or expression3def would work)
+                decoratedParseTree.Add(node, expression3Def);
             }
         }
 
         // --------------------------------------------------------------
-        // EXPRESSION 2
+        // EXPRESSION 4
         // --------------------------------------------------------------
-        public override void OutAPassExpression2(APassExpression2 node)
+        public override void OutAPassExpression4(APassExpression4 node)
         {
             Definition expression3Def;
 
@@ -148,89 +237,116 @@ namespace CS426.analysis
             }
         }
 
-        public override void OutAMultiplyExpression2(AMultiplyExpression2 node)
+        public override void OutAAddExpression4(AAddExpression4 node)
         {
-            Definition expression2Def;
-            Definition expression3Def;
+            Definition expression4Type;
+            Definition expression3Type;
 
-            if (!decoratedParseTree.TryGetValue(node.GetExpression2(), out expression2Def))
+            if (!decoratedParseTree.TryGetValue(node.GetExpression4(), out expression4Type))
             {
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (!decoratedParseTree.TryGetValue(node.GetExpression3(), out expression3Def))
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression3(), out expression3Type))
             {
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (expression2Def.GetType() != expression3Def.GetType())
+            else if (expression4Type.name != expression3Type.name)
             {
-                PrintWarning(node.GetMult(), "Cannot multiply " + expression2Def.name 
-                    + " by " + expression3Def.name);
+                PrintWarning(node.GetPlus(), "Could not add " + expression4Type.name 
+                    + " and " + expression3Type.name);
             }
-            else if (!(expression2Def is NumberDefinition))
-            {
-                PrintWarning(node.GetMult(), "Cannot multiply something of type " 
-                    + expression2Def.name);
-            }
-            else
-            {
-                // Decorate ourselves (either expression2def or expression3def would work)
-                decoratedParseTree.Add(node, expression2Def);
-            }
-        }
-
-        // --------------------------------------------------------------
-        // EXPRESSION 1
-        // --------------------------------------------------------------
-        public override void OutAPassExpression(APassExpression node)
-        {
-            Definition expression2Def;
-
-            if (!decoratedParseTree.TryGetValue(node.GetExpression2(), out expression2Def))
-            {
-                // We are checking to see if the node below us was decorated.
-                // We don't have to print an error, because if something bad happened
-                // the error would have been printed at the lower node.
-            }
-            else
-            {
-                decoratedParseTree.Add(node, expression2Def);
-            }
-        }
-
-        public override void OutAAddExpression(AAddExpression node)
-        {
-            Definition expressionType;
-            Definition expression2Type;
-
-            if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionType))
-            {
-                // We are checking to see if the node below us was decorated.
-                // We don't have to print an error, because if something bad happened
-                // the error would have been printed at the lower node.
-            }
-            else if (!decoratedParseTree.TryGetValue(node.GetExpression2(), out expression2Type))
-            {
-                // We are checking to see if the node below us was decorated.
-                // We don't have to print an error, because if something bad happened
-                // the error would have been printed at the lower node.
-            }
-            else if (expressionType.name != expression2Type.name)
-            {
-                PrintWarning(node.GetPlus(), "Could not add " + expressionType.name 
-                    + " and " + expression2Type.name);
-            }
-            else if (!(expressionType is NumberDefinition))
+            else if (!(expression4Type is NumberDefinition))
             {
                 PrintWarning(node.GetPlus(), "Could not add something of type" 
-                    + expressionType.name);
+                    + expression4Type.name + "with" + expression3Type.name);
             }
             else
             {
-                decoratedParseTree.Add(node, expressionType);
+                decoratedParseTree.Add(node, expression4Type);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // EXPRESSION 5
+        // --------------------------------------------------------------
+
+        public override void OutAPassExpression5(APassExpression5 node)
+        {
+            Definition expression4Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression4(), out expression4Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression4Def);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // EXPRESSION 6
+        // --------------------------------------------------------------
+
+        public override void OutAPassExpression6(APassExpression6 node)
+        {
+            Definition expression5Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression5(), out expression5Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression5Def);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // EXPRESSION 7
+        // --------------------------------------------------------------
+
+        public override void OutAPassExpression7(APassExpression7 node)
+        {
+            Definition expression6Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression6(), out expression6Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression6Def);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // EXPRESSION
+        // --------------------------------------------------------------
+
+        public override void OutAPassExpression(APassExpression node)
+        {
+            Definition expression7Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression7(), out expression7Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression7Def);
             }
         }
 
@@ -270,7 +386,7 @@ namespace CS426.analysis
         public override void OutAAssignStatement(AAssignStatement node)
         {
             Definition idDef;
-            Definition expressionDef;
+            Definition assignmentDef;
 
             if (!localSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
@@ -280,15 +396,15 @@ namespace CS426.analysis
             {
                 PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is not a variable");
             }
-            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            else if (!decoratedParseTree.TryGetValue(node.GetAssignment(), out assignmentDef))
             {
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (((VariableDefinition)idDef).variableType.name != expressionDef.name)
+            else if (((VariableDefinition)idDef).variableType.name != assignmentDef.name)
             {
-                PrintWarning(node.GetId(), "Cannot assign value of type " + expressionDef.name 
+                PrintWarning(node.GetId(), "Cannot assign value of type " + assignmentDef.name 
                     + " to variable of type " + ((VariableDefinition)idDef).variableType.name);
             }
             else
@@ -297,10 +413,26 @@ namespace CS426.analysis
             }
         }
 
+        public override void OutAAssignment(AAssignment node)
+        {
+            Definition expressionDef;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expressionDef);
+            }
+        }
+
         // --------------------------------------------------------------
-        // SUBFUNCTION DEFINITION
+        // FUNCTION DEFINITION
         // --------------------------------------------------------------
-        public override void InASingleSubfunction(ASingleSubfunction node)
+        public override void InAFunction(AFunction node)
         {
             Definition idDef;
 
@@ -326,7 +458,7 @@ namespace CS426.analysis
             }
         }
 
-        public override void OutASingleSubfunction(ASingleSubfunction node)
+        public override void OutAFunction(AFunction node)
         {      
             // Wipes out the local symbol table so that the next function doesn't have to deal with it
             localSymbolTable = new Dictionary<string, Definition>();
@@ -347,13 +479,13 @@ namespace CS426.analysis
             {
                 PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is not a function");
             }
-            
+
             // TODO:  Verify parameters are in the correct order, and are of the correct type
             // HINT:  You can use a class variable to "build" a list of the parameters as
             //        you discover them!
         }
 
-        public override void OutASingleParameters(ASingleParameters node)
+        public override void OutAParameter(AParameter node)
         {
             Definition expressionDef;
 
@@ -368,6 +500,7 @@ namespace CS426.analysis
                 Console.WriteLine("Invalid Parameter: " + expressionDef);
             }
         }
+
     }
 }
 

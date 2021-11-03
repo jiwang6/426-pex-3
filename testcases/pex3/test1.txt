@@ -1,8 +1,8 @@
-﻿function foo (
+﻿function foo() {
     int x;
-    x := 10;
-)
+    x = 10;
+}
 
-main (
+function main() {
     foo();
-)
+}
