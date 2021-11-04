@@ -694,13 +694,51 @@ namespace CS426.analysis
         }
 
         // --------------------------------------------------------------
+        // WHILE
+        // --------------------------------------------------------------
+        public override void OutAWhileStatement(AWhileStatement node)
+        {
+            Definition expressionDef;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expressionDef);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // IF / IF-ELSE
+        // --------------------------------------------------------------
+        public override void OutAIfStatement(AIfStatement node)
+        {
+            Definition expressionDef;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expressionDef);
+            }
+        }
+
+        // --------------------------------------------------------------
         // FUNCTION DEFINITION
         // --------------------------------------------------------------
         public override void InAFunction(AFunction node)
         {
             Definition idDef;
 
-            if (globalSymbolTable.TryGetValue(node.GetId().Text, out idDef))
+            if (!globalSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
                 PrintWarning(node.GetId(), "Identifier " + node.GetId().Text + " is already being used");
             }
@@ -729,6 +767,76 @@ namespace CS426.analysis
         }
 
         // --------------------------------------------------------------
+        // ARGUMENTS
+        // --------------------------------------------------------------
+        public override void OutASingleArguments(ASingleArguments node)
+        {
+            Definition typeDef;
+            Definition idDef;
+
+            if (!globalSymbolTable.TryGetValue(node.GetType().Text, out typeDef))
+            {
+                // If the type doesn't exist, throw an error
+                PrintWarning(node.GetType(), "Type " + node.GetType().Text + " does not exist");
+            }
+            else if (localSymbolTable.TryGetValue(node.GetVarname().Text, out idDef))
+            {
+                // If the id exists, then we can't declare something with the same name
+                PrintWarning(node.GetVarname(), "ID " + node.GetVarname().Text
+                    + " has already been declared");
+            }
+            else
+            {
+                // Add the id to the symbol table
+                VariableDefinition newVariableDefinition = new VariableDefinition();
+                newVariableDefinition.name = node.GetVarname().Text;
+                newVariableDefinition.variableType = (TypeDefinition)typeDef;
+
+                localSymbolTable.Add(node.GetVarname().Text, newVariableDefinition);
+
+
+                //FIXME!!: will also need to add to a function symbol table for when we call a function to check proper arguments!!!!
+            }
+        }
+
+        public override void OutAMultipleArguments(AMultipleArguments node)
+        {
+            Definition argumentsDef;
+            Definition typeDef;
+            Definition idDef;
+
+            if (!decoratedParseTree.TryGetValue(node.GetArguments(), out argumentsDef))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!globalSymbolTable.TryGetValue(node.GetType().Text, out typeDef))
+            {
+                // If the type doesn't exist, throw an error
+                PrintWarning(node.GetType(), "Type " + node.GetType().Text + " does not exist");
+            }
+            else if (localSymbolTable.TryGetValue(node.GetVarname().Text, out idDef))
+            {
+                // If the id exists, then we can't declare something with the same name
+                PrintWarning(node.GetVarname(), "ID " + node.GetVarname().Text
+                    + " has already been declared");
+            }
+            else
+            {
+                // Add the id to the symbol table
+                VariableDefinition newVariableDefinition = new VariableDefinition();
+                newVariableDefinition.name = node.GetVarname().Text;
+                newVariableDefinition.variableType = (TypeDefinition)typeDef;
+
+                localSymbolTable.Add(node.GetVarname().Text, newVariableDefinition);
+
+
+                //FIXME!!: will also need to add to a function symbol table for when we call a function to check proper arguments!!!!
+            }
+        }
+
+        // --------------------------------------------------------------
         // FUNCTION CALL
         // --------------------------------------------------------------
         public override void OutAFunctionCallStatement(AFunctionCallStatement node)
@@ -749,6 +857,9 @@ namespace CS426.analysis
             //        you discover them!
         }
 
+        // --------------------------------------------------------------
+        // PARAMETERS
+        // --------------------------------------------------------------
         public override void OutAOneParameters(AOneParameters node)
         {
             Definition expressionDef;
@@ -781,6 +892,35 @@ namespace CS426.analysis
             }
         }
 
+        // --------------------------------------------------------------
+        // CONSTANTS
+        // --------------------------------------------------------------
+        public override void InAConstants(AConstants node)
+        { 
+            Definition typeDef;
+            Definition idDef;
+
+            if (!globalSymbolTable.TryGetValue(node.GetType().Text, out typeDef))
+            {
+                // If the type doesn't exist, throw an error
+                PrintWarning(node.GetType(), "Type " + node.GetType().Text + " does not exist");
+            }
+            else if (globalSymbolTable.TryGetValue(node.GetVarname().Text, out idDef))
+            {
+                // If the id exists, then we can't declare something with the same name
+                PrintWarning(node.GetVarname(), "ID " + node.GetVarname().Text
+                    + " has already been declared");
+            }
+            else
+            {
+                // Add the id to the symbol table
+                VariableDefinition newVariableDefinition = new VariableDefinition();
+                newVariableDefinition.name = node.GetVarname().Text;
+                newVariableDefinition.variableType = (TypeDefinition)typeDef;
+
+                globalSymbolTable.Add(node.GetVarname().Text, newVariableDefinition);
+            }
+        }
     }
 }
 

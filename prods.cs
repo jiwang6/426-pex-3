@@ -40,14 +40,6 @@ public abstract class PArguments : Node
 {
 }
 
-public abstract class PNumArgs : Node
-{
-}
-
-public abstract class PArgument : Node
-{
-}
-
 public abstract class PStatements : Node
 {
 }
@@ -1677,364 +1669,16 @@ public sealed class AMain : PMain
     }
 
 }
-public sealed class ANoArguments : PArguments
-{
-
-
-    public ANoArguments (
-    )
-    {
-    }
-
-    public override Object Clone()
-    {
-        return new ANoArguments (
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseANoArguments(this);
-    }
-
-
-    public override string ToString()
-    {
-        return ""
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-    }
-
-}
-public sealed class AYesArguments : PArguments
-{
-    private PNumArgs _num_args_;
-
-    public AYesArguments ()
-    {
-    }
-
-    public AYesArguments (
-            PNumArgs _num_args_
-    )
-    {
-        SetNumArgs (_num_args_);
-    }
-
-    public override Object Clone()
-    {
-        return new AYesArguments (
-            (PNumArgs)CloneNode (_num_args_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAYesArguments(this);
-    }
-
-    public PNumArgs GetNumArgs ()
-    {
-        return _num_args_;
-    }
-
-    public void SetNumArgs (PNumArgs node)
-    {
-        if(_num_args_ != null)
-        {
-            _num_args_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _num_args_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_num_args_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _num_args_ == child )
-        {
-            _num_args_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _num_args_ == oldChild )
-        {
-            SetNumArgs ((PNumArgs) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ASingleNumArgs : PNumArgs
-{
-    private PArgument _argument_;
-
-    public ASingleNumArgs ()
-    {
-    }
-
-    public ASingleNumArgs (
-            PArgument _argument_
-    )
-    {
-        SetArgument (_argument_);
-    }
-
-    public override Object Clone()
-    {
-        return new ASingleNumArgs (
-            (PArgument)CloneNode (_argument_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseASingleNumArgs(this);
-    }
-
-    public PArgument GetArgument ()
-    {
-        return _argument_;
-    }
-
-    public void SetArgument (PArgument node)
-    {
-        if(_argument_ != null)
-        {
-            _argument_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _argument_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_argument_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _argument_ == child )
-        {
-            _argument_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _argument_ == oldChild )
-        {
-            SetArgument ((PArgument) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AMultipleNumArgs : PNumArgs
-{
-    private PNumArgs _num_args_;
-    private TComma _comma_;
-    private PArgument _argument_;
-
-    public AMultipleNumArgs ()
-    {
-    }
-
-    public AMultipleNumArgs (
-            PNumArgs _num_args_,
-            TComma _comma_,
-            PArgument _argument_
-    )
-    {
-        SetNumArgs (_num_args_);
-        SetComma (_comma_);
-        SetArgument (_argument_);
-    }
-
-    public override Object Clone()
-    {
-        return new AMultipleNumArgs (
-            (PNumArgs)CloneNode (_num_args_),
-            (TComma)CloneNode (_comma_),
-            (PArgument)CloneNode (_argument_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAMultipleNumArgs(this);
-    }
-
-    public PNumArgs GetNumArgs ()
-    {
-        return _num_args_;
-    }
-
-    public void SetNumArgs (PNumArgs node)
-    {
-        if(_num_args_ != null)
-        {
-            _num_args_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _num_args_ = node;
-    }
-    public TComma GetComma ()
-    {
-        return _comma_;
-    }
-
-    public void SetComma (TComma node)
-    {
-        if(_comma_ != null)
-        {
-            _comma_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _comma_ = node;
-    }
-    public PArgument GetArgument ()
-    {
-        return _argument_;
-    }
-
-    public void SetArgument (PArgument node)
-    {
-        if(_argument_ != null)
-        {
-            _argument_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _argument_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_num_args_)
-            + ToString (_comma_)
-            + ToString (_argument_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _num_args_ == child )
-        {
-            _num_args_ = null;
-            return;
-        }
-        if ( _comma_ == child )
-        {
-            _comma_ = null;
-            return;
-        }
-        if ( _argument_ == child )
-        {
-            _argument_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _num_args_ == oldChild )
-        {
-            SetNumArgs ((PNumArgs) newChild);
-            return;
-        }
-        if ( _comma_ == oldChild )
-        {
-            SetComma ((TComma) newChild);
-            return;
-        }
-        if ( _argument_ == oldChild )
-        {
-            SetArgument ((PArgument) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AArgument : PArgument
+public sealed class ASingleArguments : PArguments
 {
     private TId _type_;
     private TId _varname_;
 
-    public AArgument ()
+    public ASingleArguments ()
     {
     }
 
-    public AArgument (
+    public ASingleArguments (
             TId _type_,
             TId _varname_
     )
@@ -2045,7 +1689,7 @@ public sealed class AArgument : PArgument
 
     public override Object Clone()
     {
-        return new AArgument (
+        return new ASingleArguments (
             (TId)CloneNode (_type_),
             (TId)CloneNode (_varname_)
         );
@@ -2053,7 +1697,7 @@ public sealed class AArgument : PArgument
 
     public override void Apply(Switch sw)
     {
-        ((Analysis) sw).CaseAArgument(this);
+        ((Analysis) sw).CaseASingleArguments(this);
     }
 
     public TId GetType ()
@@ -2139,6 +1783,237 @@ public sealed class AArgument : PArgument
             SetVarname ((TId) newChild);
             return;
         }
+    }
+
+}
+public sealed class AMultipleArguments : PArguments
+{
+    private PArguments _arguments_;
+    private TComma _comma_;
+    private TId _type_;
+    private TId _varname_;
+
+    public AMultipleArguments ()
+    {
+    }
+
+    public AMultipleArguments (
+            PArguments _arguments_,
+            TComma _comma_,
+            TId _type_,
+            TId _varname_
+    )
+    {
+        SetArguments (_arguments_);
+        SetComma (_comma_);
+        SetType (_type_);
+        SetVarname (_varname_);
+    }
+
+    public override Object Clone()
+    {
+        return new AMultipleArguments (
+            (PArguments)CloneNode (_arguments_),
+            (TComma)CloneNode (_comma_),
+            (TId)CloneNode (_type_),
+            (TId)CloneNode (_varname_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAMultipleArguments(this);
+    }
+
+    public PArguments GetArguments ()
+    {
+        return _arguments_;
+    }
+
+    public void SetArguments (PArguments node)
+    {
+        if(_arguments_ != null)
+        {
+            _arguments_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _arguments_ = node;
+    }
+    public TComma GetComma ()
+    {
+        return _comma_;
+    }
+
+    public void SetComma (TComma node)
+    {
+        if(_comma_ != null)
+        {
+            _comma_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _comma_ = node;
+    }
+    public TId GetType ()
+    {
+        return _type_;
+    }
+
+    public void SetType (TId node)
+    {
+        if(_type_ != null)
+        {
+            _type_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _type_ = node;
+    }
+    public TId GetVarname ()
+    {
+        return _varname_;
+    }
+
+    public void SetVarname (TId node)
+    {
+        if(_varname_ != null)
+        {
+            _varname_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _varname_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_arguments_)
+            + ToString (_comma_)
+            + ToString (_type_)
+            + ToString (_varname_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _arguments_ == child )
+        {
+            _arguments_ = null;
+            return;
+        }
+        if ( _comma_ == child )
+        {
+            _comma_ = null;
+            return;
+        }
+        if ( _type_ == child )
+        {
+            _type_ = null;
+            return;
+        }
+        if ( _varname_ == child )
+        {
+            _varname_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _arguments_ == oldChild )
+        {
+            SetArguments ((PArguments) newChild);
+            return;
+        }
+        if ( _comma_ == oldChild )
+        {
+            SetComma ((TComma) newChild);
+            return;
+        }
+        if ( _type_ == oldChild )
+        {
+            SetType ((TId) newChild);
+            return;
+        }
+        if ( _varname_ == oldChild )
+        {
+            SetVarname ((TId) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class APassArguments : PArguments
+{
+
+
+    public APassArguments (
+    )
+    {
+    }
+
+    public override Object Clone()
+    {
+        return new APassArguments (
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAPassArguments(this);
+    }
+
+
+    public override string ToString()
+    {
+        return ""
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
     }
 
 }

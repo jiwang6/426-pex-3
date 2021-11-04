@@ -24,11 +24,9 @@ public interface Analysis : Switch
     void CaseAMainFunctions(AMainFunctions node);
     void CaseAFunction(AFunction node);
     void CaseAMain(AMain node);
-    void CaseANoArguments(ANoArguments node);
-    void CaseAYesArguments(AYesArguments node);
-    void CaseASingleNumArgs(ASingleNumArgs node);
-    void CaseAMultipleNumArgs(AMultipleNumArgs node);
-    void CaseAArgument(AArgument node);
+    void CaseASingleArguments(ASingleArguments node);
+    void CaseAMultipleArguments(AMultipleArguments node);
+    void CaseAPassArguments(APassArguments node);
     void CaseAMultipleStatements(AMultipleStatements node);
     void CaseAIfStatements(AIfStatements node);
     void CaseAIfElseStatements(AIfElseStatements node);
@@ -207,23 +205,15 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
-    public virtual void CaseANoArguments(ANoArguments node)
+    public virtual void CaseASingleArguments(ASingleArguments node)
     {
         DefaultCase(node);
     }
-    public virtual void CaseAYesArguments(AYesArguments node)
+    public virtual void CaseAMultipleArguments(AMultipleArguments node)
     {
         DefaultCase(node);
     }
-    public virtual void CaseASingleNumArgs(ASingleNumArgs node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseAMultipleNumArgs(AMultipleNumArgs node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseAArgument(AArgument node)
+    public virtual void CaseAPassArguments(APassArguments node)
     {
         DefaultCase(node);
     }
@@ -827,99 +817,19 @@ public class DepthFirstAdapter : AnalysisAdapter
         }
         OutAMain(node);
     }
-    public virtual void InANoArguments(ANoArguments node)
+    public virtual void InASingleArguments(ASingleArguments node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutANoArguments(ANoArguments node)
+    public virtual void OutASingleArguments(ASingleArguments node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseANoArguments(ANoArguments node)
+    public override void CaseASingleArguments(ASingleArguments node)
     {
-        InANoArguments(node);
-        OutANoArguments(node);
-    }
-    public virtual void InAYesArguments(AYesArguments node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAYesArguments(AYesArguments node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAYesArguments(AYesArguments node)
-    {
-        InAYesArguments(node);
-        if(node.GetNumArgs() != null)
-        {
-            node.GetNumArgs().Apply(this);
-        }
-        OutAYesArguments(node);
-    }
-    public virtual void InASingleNumArgs(ASingleNumArgs node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASingleNumArgs(ASingleNumArgs node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASingleNumArgs(ASingleNumArgs node)
-    {
-        InASingleNumArgs(node);
-        if(node.GetArgument() != null)
-        {
-            node.GetArgument().Apply(this);
-        }
-        OutASingleNumArgs(node);
-    }
-    public virtual void InAMultipleNumArgs(AMultipleNumArgs node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAMultipleNumArgs(AMultipleNumArgs node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAMultipleNumArgs(AMultipleNumArgs node)
-    {
-        InAMultipleNumArgs(node);
-        if(node.GetNumArgs() != null)
-        {
-            node.GetNumArgs().Apply(this);
-        }
-        if(node.GetComma() != null)
-        {
-            node.GetComma().Apply(this);
-        }
-        if(node.GetArgument() != null)
-        {
-            node.GetArgument().Apply(this);
-        }
-        OutAMultipleNumArgs(node);
-    }
-    public virtual void InAArgument(AArgument node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAArgument(AArgument node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAArgument(AArgument node)
-    {
-        InAArgument(node);
+        InASingleArguments(node);
         if(node.GetType() != null)
         {
             node.GetType().Apply(this);
@@ -928,7 +838,53 @@ public class DepthFirstAdapter : AnalysisAdapter
         {
             node.GetVarname().Apply(this);
         }
-        OutAArgument(node);
+        OutASingleArguments(node);
+    }
+    public virtual void InAMultipleArguments(AMultipleArguments node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAMultipleArguments(AMultipleArguments node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAMultipleArguments(AMultipleArguments node)
+    {
+        InAMultipleArguments(node);
+        if(node.GetArguments() != null)
+        {
+            node.GetArguments().Apply(this);
+        }
+        if(node.GetComma() != null)
+        {
+            node.GetComma().Apply(this);
+        }
+        if(node.GetType() != null)
+        {
+            node.GetType().Apply(this);
+        }
+        if(node.GetVarname() != null)
+        {
+            node.GetVarname().Apply(this);
+        }
+        OutAMultipleArguments(node);
+    }
+    public virtual void InAPassArguments(APassArguments node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAPassArguments(APassArguments node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAPassArguments(APassArguments node)
+    {
+        InAPassArguments(node);
+        OutAPassArguments(node);
     }
     public virtual void InAMultipleStatements(AMultipleStatements node)
     {
@@ -2234,99 +2190,19 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         }
         OutAMain(node);
     }
-    public virtual void InANoArguments(ANoArguments node)
+    public virtual void InASingleArguments(ASingleArguments node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutANoArguments(ANoArguments node)
+    public virtual void OutASingleArguments(ASingleArguments node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseANoArguments(ANoArguments node)
+    public override void CaseASingleArguments(ASingleArguments node)
     {
-        InANoArguments(node);
-        OutANoArguments(node);
-    }
-    public virtual void InAYesArguments(AYesArguments node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAYesArguments(AYesArguments node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAYesArguments(AYesArguments node)
-    {
-        InAYesArguments(node);
-        if(node.GetNumArgs() != null)
-        {
-            node.GetNumArgs().Apply(this);
-        }
-        OutAYesArguments(node);
-    }
-    public virtual void InASingleNumArgs(ASingleNumArgs node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASingleNumArgs(ASingleNumArgs node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASingleNumArgs(ASingleNumArgs node)
-    {
-        InASingleNumArgs(node);
-        if(node.GetArgument() != null)
-        {
-            node.GetArgument().Apply(this);
-        }
-        OutASingleNumArgs(node);
-    }
-    public virtual void InAMultipleNumArgs(AMultipleNumArgs node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAMultipleNumArgs(AMultipleNumArgs node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAMultipleNumArgs(AMultipleNumArgs node)
-    {
-        InAMultipleNumArgs(node);
-        if(node.GetArgument() != null)
-        {
-            node.GetArgument().Apply(this);
-        }
-        if(node.GetComma() != null)
-        {
-            node.GetComma().Apply(this);
-        }
-        if(node.GetNumArgs() != null)
-        {
-            node.GetNumArgs().Apply(this);
-        }
-        OutAMultipleNumArgs(node);
-    }
-    public virtual void InAArgument(AArgument node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAArgument(AArgument node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAArgument(AArgument node)
-    {
-        InAArgument(node);
+        InASingleArguments(node);
         if(node.GetVarname() != null)
         {
             node.GetVarname().Apply(this);
@@ -2335,7 +2211,53 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetType().Apply(this);
         }
-        OutAArgument(node);
+        OutASingleArguments(node);
+    }
+    public virtual void InAMultipleArguments(AMultipleArguments node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAMultipleArguments(AMultipleArguments node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAMultipleArguments(AMultipleArguments node)
+    {
+        InAMultipleArguments(node);
+        if(node.GetVarname() != null)
+        {
+            node.GetVarname().Apply(this);
+        }
+        if(node.GetType() != null)
+        {
+            node.GetType().Apply(this);
+        }
+        if(node.GetComma() != null)
+        {
+            node.GetComma().Apply(this);
+        }
+        if(node.GetArguments() != null)
+        {
+            node.GetArguments().Apply(this);
+        }
+        OutAMultipleArguments(node);
+    }
+    public virtual void InAPassArguments(APassArguments node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAPassArguments(APassArguments node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAPassArguments(APassArguments node)
+    {
+        InAPassArguments(node);
+        OutAPassArguments(node);
     }
     public virtual void InAMultipleStatements(AMultipleStatements node)
     {
