@@ -66,7 +66,7 @@ Productions
 	program = lines; // everything is contained in 1 program
 	lines = {constant} constants lines | {function} functions; // all constants and variable declarations in program must come before any function (in language spec)
 
-	constants = keyword_constant [type]:id [varname]:id assign assignment eol;
+	constants = keyword_constant [type]:id [varname]:id assign expression eol;
 	declare_statement = [type]:id [varname]:id eol;
 
 	functions = {non_main} function functions | {main} main; // main() will be the last thing in the program
@@ -80,22 +80,16 @@ Productions
 	statements = {multiple} statement statements | {if} if_statement statements | {if_else} if_else_statement statements | {while} while_statement statements | {pass} ;
 	statement = {assignment} assign_statement | {declaration} declare_statement | {call} function_call_statement;
 
-	if_statement = keyword_if condition open_brace statements closed_brace;
-	if_else_statement = keyword_if condition [if_open_brace]:open_brace [if_statements]:statements [if_closed_brace]:closed_brace keyword_else [else_open_brace]:open_brace [else_statements]:statements [else_closed_brace]:closed_brace;
-	
-	while_statement = keyword_while condition open_brace statements closed_brace;
-	
-	condition = left_parenthesis expression right_parenthesis;
+	if_statement = keyword_if left_parenthesis expression right_parenthesis open_brace statements closed_brace;
+	if_else_statement = if_statement keyword_else open_brace statements closed_brace;
 
-	assign_statement = id assign assignment eol;
-	assignment = expression;
+	while_statement = keyword_while left_parenthesis expression right_parenthesis open_brace statements closed_brace;
+
+	assign_statement = id assign expression eol;
 	
 	function_call_statement = id left_parenthesis parameters right_parenthesis eol;
 
-	parameters = {no} | {yes} num_parameters;
-	num_parameters = {one} parameter | {multiple} num_parameters comma parameter;
-	parameter = expression;
-
+	parameters = {one} expression | {multiple} parameters comma expression | {pass} ;
 
 	expression = {or_comparison} expression or expression7 | {pass} expression7;
 	expression7 = {and_comparison} expression7 and expression6 | {pass} expression6;

@@ -1,7 +1,10 @@
 ﻿function foo() {
     int x;
-    string s;
-    x = 10 + (5 - s);
+    string a;
+    string b;
+    if (a && b) {
+        x = 10 + (5 - 2);
+    }
 }
 
 function main() {

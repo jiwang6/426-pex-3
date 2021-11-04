@@ -68,15 +68,7 @@ public abstract class PWhileStatement : Node
 {
 }
 
-public abstract class PCondition : Node
-{
-}
-
 public abstract class PAssignStatement : Node
-{
-}
-
-public abstract class PAssignment : Node
 {
 }
 
@@ -85,14 +77,6 @@ public abstract class PFunctionCallStatement : Node
 }
 
 public abstract class PParameters : Node
-{
-}
-
-public abstract class PNumParameters : Node
-{
-}
-
-public abstract class PParameter : Node
 {
 }
 
@@ -412,7 +396,7 @@ public sealed class AConstants : PConstants
     private TId _type_;
     private TId _varname_;
     private TAssign _assign_;
-    private PAssignment _assignment_;
+    private PExpression _expression_;
     private TEol _eol_;
 
     public AConstants ()
@@ -424,7 +408,7 @@ public sealed class AConstants : PConstants
             TId _type_,
             TId _varname_,
             TAssign _assign_,
-            PAssignment _assignment_,
+            PExpression _expression_,
             TEol _eol_
     )
     {
@@ -432,7 +416,7 @@ public sealed class AConstants : PConstants
         SetType (_type_);
         SetVarname (_varname_);
         SetAssign (_assign_);
-        SetAssignment (_assignment_);
+        SetExpression (_expression_);
         SetEol (_eol_);
     }
 
@@ -443,7 +427,7 @@ public sealed class AConstants : PConstants
             (TId)CloneNode (_type_),
             (TId)CloneNode (_varname_),
             (TAssign)CloneNode (_assign_),
-            (PAssignment)CloneNode (_assignment_),
+            (PExpression)CloneNode (_expression_),
             (TEol)CloneNode (_eol_)
         );
     }
@@ -549,16 +533,16 @@ public sealed class AConstants : PConstants
 
         _assign_ = node;
     }
-    public PAssignment GetAssignment ()
+    public PExpression GetExpression ()
     {
-        return _assignment_;
+        return _expression_;
     }
 
-    public void SetAssignment (PAssignment node)
+    public void SetExpression (PExpression node)
     {
-        if(_assignment_ != null)
+        if(_expression_ != null)
         {
-            _assignment_.Parent(null);
+            _expression_.Parent(null);
         }
 
         if(node != null)
@@ -571,7 +555,7 @@ public sealed class AConstants : PConstants
             node.Parent(this);
         }
 
-        _assignment_ = node;
+        _expression_ = node;
     }
     public TEol GetEol ()
     {
@@ -605,7 +589,7 @@ public sealed class AConstants : PConstants
             + ToString (_type_)
             + ToString (_varname_)
             + ToString (_assign_)
-            + ToString (_assignment_)
+            + ToString (_expression_)
             + ToString (_eol_)
         ;
     }
@@ -632,9 +616,9 @@ public sealed class AConstants : PConstants
             _assign_ = null;
             return;
         }
-        if ( _assignment_ == child )
+        if ( _expression_ == child )
         {
-            _assignment_ = null;
+            _expression_ = null;
             return;
         }
         if ( _eol_ == child )
@@ -666,9 +650,9 @@ public sealed class AConstants : PConstants
             SetAssign ((TAssign) newChild);
             return;
         }
-        if ( _assignment_ == oldChild )
+        if ( _expression_ == oldChild )
         {
-            SetAssignment ((PAssignment) newChild);
+            SetExpression ((PExpression) newChild);
             return;
         }
         if ( _eol_ == oldChild )
@@ -2899,7 +2883,9 @@ public sealed class ACallStatement : PStatement
 public sealed class AIfStatement : PIfStatement
 {
     private TKeywordIf _keyword_if_;
-    private PCondition _condition_;
+    private TLeftParenthesis _left_parenthesis_;
+    private PExpression _expression_;
+    private TRightParenthesis _right_parenthesis_;
     private TOpenBrace _open_brace_;
     private PStatements _statements_;
     private TClosedBrace _closed_brace_;
@@ -2910,14 +2896,18 @@ public sealed class AIfStatement : PIfStatement
 
     public AIfStatement (
             TKeywordIf _keyword_if_,
-            PCondition _condition_,
+            TLeftParenthesis _left_parenthesis_,
+            PExpression _expression_,
+            TRightParenthesis _right_parenthesis_,
             TOpenBrace _open_brace_,
             PStatements _statements_,
             TClosedBrace _closed_brace_
     )
     {
         SetKeywordIf (_keyword_if_);
-        SetCondition (_condition_);
+        SetLeftParenthesis (_left_parenthesis_);
+        SetExpression (_expression_);
+        SetRightParenthesis (_right_parenthesis_);
         SetOpenBrace (_open_brace_);
         SetStatements (_statements_);
         SetClosedBrace (_closed_brace_);
@@ -2927,7 +2917,9 @@ public sealed class AIfStatement : PIfStatement
     {
         return new AIfStatement (
             (TKeywordIf)CloneNode (_keyword_if_),
-            (PCondition)CloneNode (_condition_),
+            (TLeftParenthesis)CloneNode (_left_parenthesis_),
+            (PExpression)CloneNode (_expression_),
+            (TRightParenthesis)CloneNode (_right_parenthesis_),
             (TOpenBrace)CloneNode (_open_brace_),
             (PStatements)CloneNode (_statements_),
             (TClosedBrace)CloneNode (_closed_brace_)
@@ -2963,16 +2955,16 @@ public sealed class AIfStatement : PIfStatement
 
         _keyword_if_ = node;
     }
-    public PCondition GetCondition ()
+    public TLeftParenthesis GetLeftParenthesis ()
     {
-        return _condition_;
+        return _left_parenthesis_;
     }
 
-    public void SetCondition (PCondition node)
+    public void SetLeftParenthesis (TLeftParenthesis node)
     {
-        if(_condition_ != null)
+        if(_left_parenthesis_ != null)
         {
-            _condition_.Parent(null);
+            _left_parenthesis_.Parent(null);
         }
 
         if(node != null)
@@ -2985,7 +2977,55 @@ public sealed class AIfStatement : PIfStatement
             node.Parent(this);
         }
 
-        _condition_ = node;
+        _left_parenthesis_ = node;
+    }
+    public PExpression GetExpression ()
+    {
+        return _expression_;
+    }
+
+    public void SetExpression (PExpression node)
+    {
+        if(_expression_ != null)
+        {
+            _expression_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression_ = node;
+    }
+    public TRightParenthesis GetRightParenthesis ()
+    {
+        return _right_parenthesis_;
+    }
+
+    public void SetRightParenthesis (TRightParenthesis node)
+    {
+        if(_right_parenthesis_ != null)
+        {
+            _right_parenthesis_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _right_parenthesis_ = node;
     }
     public TOpenBrace GetOpenBrace ()
     {
@@ -3064,7 +3104,9 @@ public sealed class AIfStatement : PIfStatement
     {
         return ""
             + ToString (_keyword_if_)
-            + ToString (_condition_)
+            + ToString (_left_parenthesis_)
+            + ToString (_expression_)
+            + ToString (_right_parenthesis_)
             + ToString (_open_brace_)
             + ToString (_statements_)
             + ToString (_closed_brace_)
@@ -3078,9 +3120,19 @@ public sealed class AIfStatement : PIfStatement
             _keyword_if_ = null;
             return;
         }
-        if ( _condition_ == child )
+        if ( _left_parenthesis_ == child )
         {
-            _condition_ = null;
+            _left_parenthesis_ = null;
+            return;
+        }
+        if ( _expression_ == child )
+        {
+            _expression_ = null;
+            return;
+        }
+        if ( _right_parenthesis_ == child )
+        {
+            _right_parenthesis_ = null;
             return;
         }
         if ( _open_brace_ == child )
@@ -3107,9 +3159,19 @@ public sealed class AIfStatement : PIfStatement
             SetKeywordIf ((TKeywordIf) newChild);
             return;
         }
-        if ( _condition_ == oldChild )
+        if ( _left_parenthesis_ == oldChild )
         {
-            SetCondition ((PCondition) newChild);
+            SetLeftParenthesis ((TLeftParenthesis) newChild);
+            return;
+        }
+        if ( _expression_ == oldChild )
+        {
+            SetExpression ((PExpression) newChild);
+            return;
+        }
+        if ( _right_parenthesis_ == oldChild )
+        {
+            SetRightParenthesis ((TRightParenthesis) newChild);
             return;
         }
         if ( _open_brace_ == oldChild )
@@ -3132,55 +3194,39 @@ public sealed class AIfStatement : PIfStatement
 }
 public sealed class AIfElseStatement : PIfElseStatement
 {
-    private TKeywordIf _keyword_if_;
-    private PCondition _condition_;
-    private TOpenBrace _if_open_brace_;
-    private PStatements _if_statements_;
-    private TClosedBrace _if_closed_brace_;
+    private PIfStatement _if_statement_;
     private TKeywordElse _keyword_else_;
-    private TOpenBrace _else_open_brace_;
-    private PStatements _else_statements_;
-    private TClosedBrace _else_closed_brace_;
+    private TOpenBrace _open_brace_;
+    private PStatements _statements_;
+    private TClosedBrace _closed_brace_;
 
     public AIfElseStatement ()
     {
     }
 
     public AIfElseStatement (
-            TKeywordIf _keyword_if_,
-            PCondition _condition_,
-            TOpenBrace _if_open_brace_,
-            PStatements _if_statements_,
-            TClosedBrace _if_closed_brace_,
+            PIfStatement _if_statement_,
             TKeywordElse _keyword_else_,
-            TOpenBrace _else_open_brace_,
-            PStatements _else_statements_,
-            TClosedBrace _else_closed_brace_
+            TOpenBrace _open_brace_,
+            PStatements _statements_,
+            TClosedBrace _closed_brace_
     )
     {
-        SetKeywordIf (_keyword_if_);
-        SetCondition (_condition_);
-        SetIfOpenBrace (_if_open_brace_);
-        SetIfStatements (_if_statements_);
-        SetIfClosedBrace (_if_closed_brace_);
+        SetIfStatement (_if_statement_);
         SetKeywordElse (_keyword_else_);
-        SetElseOpenBrace (_else_open_brace_);
-        SetElseStatements (_else_statements_);
-        SetElseClosedBrace (_else_closed_brace_);
+        SetOpenBrace (_open_brace_);
+        SetStatements (_statements_);
+        SetClosedBrace (_closed_brace_);
     }
 
     public override Object Clone()
     {
         return new AIfElseStatement (
-            (TKeywordIf)CloneNode (_keyword_if_),
-            (PCondition)CloneNode (_condition_),
-            (TOpenBrace)CloneNode (_if_open_brace_),
-            (PStatements)CloneNode (_if_statements_),
-            (TClosedBrace)CloneNode (_if_closed_brace_),
+            (PIfStatement)CloneNode (_if_statement_),
             (TKeywordElse)CloneNode (_keyword_else_),
-            (TOpenBrace)CloneNode (_else_open_brace_),
-            (PStatements)CloneNode (_else_statements_),
-            (TClosedBrace)CloneNode (_else_closed_brace_)
+            (TOpenBrace)CloneNode (_open_brace_),
+            (PStatements)CloneNode (_statements_),
+            (TClosedBrace)CloneNode (_closed_brace_)
         );
     }
 
@@ -3189,16 +3235,16 @@ public sealed class AIfElseStatement : PIfElseStatement
         ((Analysis) sw).CaseAIfElseStatement(this);
     }
 
-    public TKeywordIf GetKeywordIf ()
+    public PIfStatement GetIfStatement ()
     {
-        return _keyword_if_;
+        return _if_statement_;
     }
 
-    public void SetKeywordIf (TKeywordIf node)
+    public void SetIfStatement (PIfStatement node)
     {
-        if(_keyword_if_ != null)
+        if(_if_statement_ != null)
         {
-            _keyword_if_.Parent(null);
+            _if_statement_.Parent(null);
         }
 
         if(node != null)
@@ -3211,103 +3257,7 @@ public sealed class AIfElseStatement : PIfElseStatement
             node.Parent(this);
         }
 
-        _keyword_if_ = node;
-    }
-    public PCondition GetCondition ()
-    {
-        return _condition_;
-    }
-
-    public void SetCondition (PCondition node)
-    {
-        if(_condition_ != null)
-        {
-            _condition_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _condition_ = node;
-    }
-    public TOpenBrace GetIfOpenBrace ()
-    {
-        return _if_open_brace_;
-    }
-
-    public void SetIfOpenBrace (TOpenBrace node)
-    {
-        if(_if_open_brace_ != null)
-        {
-            _if_open_brace_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _if_open_brace_ = node;
-    }
-    public PStatements GetIfStatements ()
-    {
-        return _if_statements_;
-    }
-
-    public void SetIfStatements (PStatements node)
-    {
-        if(_if_statements_ != null)
-        {
-            _if_statements_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _if_statements_ = node;
-    }
-    public TClosedBrace GetIfClosedBrace ()
-    {
-        return _if_closed_brace_;
-    }
-
-    public void SetIfClosedBrace (TClosedBrace node)
-    {
-        if(_if_closed_brace_ != null)
-        {
-            _if_closed_brace_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _if_closed_brace_ = node;
+        _if_statement_ = node;
     }
     public TKeywordElse GetKeywordElse ()
     {
@@ -3333,16 +3283,16 @@ public sealed class AIfElseStatement : PIfElseStatement
 
         _keyword_else_ = node;
     }
-    public TOpenBrace GetElseOpenBrace ()
+    public TOpenBrace GetOpenBrace ()
     {
-        return _else_open_brace_;
+        return _open_brace_;
     }
 
-    public void SetElseOpenBrace (TOpenBrace node)
+    public void SetOpenBrace (TOpenBrace node)
     {
-        if(_else_open_brace_ != null)
+        if(_open_brace_ != null)
         {
-            _else_open_brace_.Parent(null);
+            _open_brace_.Parent(null);
         }
 
         if(node != null)
@@ -3355,18 +3305,18 @@ public sealed class AIfElseStatement : PIfElseStatement
             node.Parent(this);
         }
 
-        _else_open_brace_ = node;
+        _open_brace_ = node;
     }
-    public PStatements GetElseStatements ()
+    public PStatements GetStatements ()
     {
-        return _else_statements_;
+        return _statements_;
     }
 
-    public void SetElseStatements (PStatements node)
+    public void SetStatements (PStatements node)
     {
-        if(_else_statements_ != null)
+        if(_statements_ != null)
         {
-            _else_statements_.Parent(null);
+            _statements_.Parent(null);
         }
 
         if(node != null)
@@ -3379,18 +3329,18 @@ public sealed class AIfElseStatement : PIfElseStatement
             node.Parent(this);
         }
 
-        _else_statements_ = node;
+        _statements_ = node;
     }
-    public TClosedBrace GetElseClosedBrace ()
+    public TClosedBrace GetClosedBrace ()
     {
-        return _else_closed_brace_;
+        return _closed_brace_;
     }
 
-    public void SetElseClosedBrace (TClosedBrace node)
+    public void SetClosedBrace (TClosedBrace node)
     {
-        if(_else_closed_brace_ != null)
+        if(_closed_brace_ != null)
         {
-            _else_closed_brace_.Parent(null);
+            _closed_brace_.Parent(null);
         }
 
         if(node != null)
@@ -3403,49 +3353,25 @@ public sealed class AIfElseStatement : PIfElseStatement
             node.Parent(this);
         }
 
-        _else_closed_brace_ = node;
+        _closed_brace_ = node;
     }
 
     public override string ToString()
     {
         return ""
-            + ToString (_keyword_if_)
-            + ToString (_condition_)
-            + ToString (_if_open_brace_)
-            + ToString (_if_statements_)
-            + ToString (_if_closed_brace_)
+            + ToString (_if_statement_)
             + ToString (_keyword_else_)
-            + ToString (_else_open_brace_)
-            + ToString (_else_statements_)
-            + ToString (_else_closed_brace_)
+            + ToString (_open_brace_)
+            + ToString (_statements_)
+            + ToString (_closed_brace_)
         ;
     }
 
     internal override void RemoveChild(Node child)
     {
-        if ( _keyword_if_ == child )
+        if ( _if_statement_ == child )
         {
-            _keyword_if_ = null;
-            return;
-        }
-        if ( _condition_ == child )
-        {
-            _condition_ = null;
-            return;
-        }
-        if ( _if_open_brace_ == child )
-        {
-            _if_open_brace_ = null;
-            return;
-        }
-        if ( _if_statements_ == child )
-        {
-            _if_statements_ = null;
-            return;
-        }
-        if ( _if_closed_brace_ == child )
-        {
-            _if_closed_brace_ = null;
+            _if_statement_ = null;
             return;
         }
         if ( _keyword_else_ == child )
@@ -3453,48 +3379,28 @@ public sealed class AIfElseStatement : PIfElseStatement
             _keyword_else_ = null;
             return;
         }
-        if ( _else_open_brace_ == child )
+        if ( _open_brace_ == child )
         {
-            _else_open_brace_ = null;
+            _open_brace_ = null;
             return;
         }
-        if ( _else_statements_ == child )
+        if ( _statements_ == child )
         {
-            _else_statements_ = null;
+            _statements_ = null;
             return;
         }
-        if ( _else_closed_brace_ == child )
+        if ( _closed_brace_ == child )
         {
-            _else_closed_brace_ = null;
+            _closed_brace_ = null;
             return;
         }
     }
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _keyword_if_ == oldChild )
+        if ( _if_statement_ == oldChild )
         {
-            SetKeywordIf ((TKeywordIf) newChild);
-            return;
-        }
-        if ( _condition_ == oldChild )
-        {
-            SetCondition ((PCondition) newChild);
-            return;
-        }
-        if ( _if_open_brace_ == oldChild )
-        {
-            SetIfOpenBrace ((TOpenBrace) newChild);
-            return;
-        }
-        if ( _if_statements_ == oldChild )
-        {
-            SetIfStatements ((PStatements) newChild);
-            return;
-        }
-        if ( _if_closed_brace_ == oldChild )
-        {
-            SetIfClosedBrace ((TClosedBrace) newChild);
+            SetIfStatement ((PIfStatement) newChild);
             return;
         }
         if ( _keyword_else_ == oldChild )
@@ -3502,19 +3408,19 @@ public sealed class AIfElseStatement : PIfElseStatement
             SetKeywordElse ((TKeywordElse) newChild);
             return;
         }
-        if ( _else_open_brace_ == oldChild )
+        if ( _open_brace_ == oldChild )
         {
-            SetElseOpenBrace ((TOpenBrace) newChild);
+            SetOpenBrace ((TOpenBrace) newChild);
             return;
         }
-        if ( _else_statements_ == oldChild )
+        if ( _statements_ == oldChild )
         {
-            SetElseStatements ((PStatements) newChild);
+            SetStatements ((PStatements) newChild);
             return;
         }
-        if ( _else_closed_brace_ == oldChild )
+        if ( _closed_brace_ == oldChild )
         {
-            SetElseClosedBrace ((TClosedBrace) newChild);
+            SetClosedBrace ((TClosedBrace) newChild);
             return;
         }
     }
@@ -3523,7 +3429,9 @@ public sealed class AIfElseStatement : PIfElseStatement
 public sealed class AWhileStatement : PWhileStatement
 {
     private TKeywordWhile _keyword_while_;
-    private PCondition _condition_;
+    private TLeftParenthesis _left_parenthesis_;
+    private PExpression _expression_;
+    private TRightParenthesis _right_parenthesis_;
     private TOpenBrace _open_brace_;
     private PStatements _statements_;
     private TClosedBrace _closed_brace_;
@@ -3534,14 +3442,18 @@ public sealed class AWhileStatement : PWhileStatement
 
     public AWhileStatement (
             TKeywordWhile _keyword_while_,
-            PCondition _condition_,
+            TLeftParenthesis _left_parenthesis_,
+            PExpression _expression_,
+            TRightParenthesis _right_parenthesis_,
             TOpenBrace _open_brace_,
             PStatements _statements_,
             TClosedBrace _closed_brace_
     )
     {
         SetKeywordWhile (_keyword_while_);
-        SetCondition (_condition_);
+        SetLeftParenthesis (_left_parenthesis_);
+        SetExpression (_expression_);
+        SetRightParenthesis (_right_parenthesis_);
         SetOpenBrace (_open_brace_);
         SetStatements (_statements_);
         SetClosedBrace (_closed_brace_);
@@ -3551,7 +3463,9 @@ public sealed class AWhileStatement : PWhileStatement
     {
         return new AWhileStatement (
             (TKeywordWhile)CloneNode (_keyword_while_),
-            (PCondition)CloneNode (_condition_),
+            (TLeftParenthesis)CloneNode (_left_parenthesis_),
+            (PExpression)CloneNode (_expression_),
+            (TRightParenthesis)CloneNode (_right_parenthesis_),
             (TOpenBrace)CloneNode (_open_brace_),
             (PStatements)CloneNode (_statements_),
             (TClosedBrace)CloneNode (_closed_brace_)
@@ -3587,16 +3501,16 @@ public sealed class AWhileStatement : PWhileStatement
 
         _keyword_while_ = node;
     }
-    public PCondition GetCondition ()
+    public TLeftParenthesis GetLeftParenthesis ()
     {
-        return _condition_;
+        return _left_parenthesis_;
     }
 
-    public void SetCondition (PCondition node)
+    public void SetLeftParenthesis (TLeftParenthesis node)
     {
-        if(_condition_ != null)
+        if(_left_parenthesis_ != null)
         {
-            _condition_.Parent(null);
+            _left_parenthesis_.Parent(null);
         }
 
         if(node != null)
@@ -3609,7 +3523,55 @@ public sealed class AWhileStatement : PWhileStatement
             node.Parent(this);
         }
 
-        _condition_ = node;
+        _left_parenthesis_ = node;
+    }
+    public PExpression GetExpression ()
+    {
+        return _expression_;
+    }
+
+    public void SetExpression (PExpression node)
+    {
+        if(_expression_ != null)
+        {
+            _expression_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression_ = node;
+    }
+    public TRightParenthesis GetRightParenthesis ()
+    {
+        return _right_parenthesis_;
+    }
+
+    public void SetRightParenthesis (TRightParenthesis node)
+    {
+        if(_right_parenthesis_ != null)
+        {
+            _right_parenthesis_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _right_parenthesis_ = node;
     }
     public TOpenBrace GetOpenBrace ()
     {
@@ -3688,7 +3650,9 @@ public sealed class AWhileStatement : PWhileStatement
     {
         return ""
             + ToString (_keyword_while_)
-            + ToString (_condition_)
+            + ToString (_left_parenthesis_)
+            + ToString (_expression_)
+            + ToString (_right_parenthesis_)
             + ToString (_open_brace_)
             + ToString (_statements_)
             + ToString (_closed_brace_)
@@ -3702,9 +3666,19 @@ public sealed class AWhileStatement : PWhileStatement
             _keyword_while_ = null;
             return;
         }
-        if ( _condition_ == child )
+        if ( _left_parenthesis_ == child )
         {
-            _condition_ = null;
+            _left_parenthesis_ = null;
+            return;
+        }
+        if ( _expression_ == child )
+        {
+            _expression_ = null;
+            return;
+        }
+        if ( _right_parenthesis_ == child )
+        {
+            _right_parenthesis_ = null;
             return;
         }
         if ( _open_brace_ == child )
@@ -3731,9 +3705,19 @@ public sealed class AWhileStatement : PWhileStatement
             SetKeywordWhile ((TKeywordWhile) newChild);
             return;
         }
-        if ( _condition_ == oldChild )
+        if ( _left_parenthesis_ == oldChild )
         {
-            SetCondition ((PCondition) newChild);
+            SetLeftParenthesis ((TLeftParenthesis) newChild);
+            return;
+        }
+        if ( _expression_ == oldChild )
+        {
+            SetExpression ((PExpression) newChild);
+            return;
+        }
+        if ( _right_parenthesis_ == oldChild )
+        {
+            SetRightParenthesis ((TRightParenthesis) newChild);
             return;
         }
         if ( _open_brace_ == oldChild )
@@ -3754,167 +3738,11 @@ public sealed class AWhileStatement : PWhileStatement
     }
 
 }
-public sealed class ACondition : PCondition
-{
-    private TLeftParenthesis _left_parenthesis_;
-    private PExpression _expression_;
-    private TRightParenthesis _right_parenthesis_;
-
-    public ACondition ()
-    {
-    }
-
-    public ACondition (
-            TLeftParenthesis _left_parenthesis_,
-            PExpression _expression_,
-            TRightParenthesis _right_parenthesis_
-    )
-    {
-        SetLeftParenthesis (_left_parenthesis_);
-        SetExpression (_expression_);
-        SetRightParenthesis (_right_parenthesis_);
-    }
-
-    public override Object Clone()
-    {
-        return new ACondition (
-            (TLeftParenthesis)CloneNode (_left_parenthesis_),
-            (PExpression)CloneNode (_expression_),
-            (TRightParenthesis)CloneNode (_right_parenthesis_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseACondition(this);
-    }
-
-    public TLeftParenthesis GetLeftParenthesis ()
-    {
-        return _left_parenthesis_;
-    }
-
-    public void SetLeftParenthesis (TLeftParenthesis node)
-    {
-        if(_left_parenthesis_ != null)
-        {
-            _left_parenthesis_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _left_parenthesis_ = node;
-    }
-    public PExpression GetExpression ()
-    {
-        return _expression_;
-    }
-
-    public void SetExpression (PExpression node)
-    {
-        if(_expression_ != null)
-        {
-            _expression_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _expression_ = node;
-    }
-    public TRightParenthesis GetRightParenthesis ()
-    {
-        return _right_parenthesis_;
-    }
-
-    public void SetRightParenthesis (TRightParenthesis node)
-    {
-        if(_right_parenthesis_ != null)
-        {
-            _right_parenthesis_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _right_parenthesis_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_left_parenthesis_)
-            + ToString (_expression_)
-            + ToString (_right_parenthesis_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _left_parenthesis_ == child )
-        {
-            _left_parenthesis_ = null;
-            return;
-        }
-        if ( _expression_ == child )
-        {
-            _expression_ = null;
-            return;
-        }
-        if ( _right_parenthesis_ == child )
-        {
-            _right_parenthesis_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _left_parenthesis_ == oldChild )
-        {
-            SetLeftParenthesis ((TLeftParenthesis) newChild);
-            return;
-        }
-        if ( _expression_ == oldChild )
-        {
-            SetExpression ((PExpression) newChild);
-            return;
-        }
-        if ( _right_parenthesis_ == oldChild )
-        {
-            SetRightParenthesis ((TRightParenthesis) newChild);
-            return;
-        }
-    }
-
-}
 public sealed class AAssignStatement : PAssignStatement
 {
     private TId _id_;
     private TAssign _assign_;
-    private PAssignment _assignment_;
+    private PExpression _expression_;
     private TEol _eol_;
 
     public AAssignStatement ()
@@ -3924,13 +3752,13 @@ public sealed class AAssignStatement : PAssignStatement
     public AAssignStatement (
             TId _id_,
             TAssign _assign_,
-            PAssignment _assignment_,
+            PExpression _expression_,
             TEol _eol_
     )
     {
         SetId (_id_);
         SetAssign (_assign_);
-        SetAssignment (_assignment_);
+        SetExpression (_expression_);
         SetEol (_eol_);
     }
 
@@ -3939,7 +3767,7 @@ public sealed class AAssignStatement : PAssignStatement
         return new AAssignStatement (
             (TId)CloneNode (_id_),
             (TAssign)CloneNode (_assign_),
-            (PAssignment)CloneNode (_assignment_),
+            (PExpression)CloneNode (_expression_),
             (TEol)CloneNode (_eol_)
         );
     }
@@ -3997,16 +3825,16 @@ public sealed class AAssignStatement : PAssignStatement
 
         _assign_ = node;
     }
-    public PAssignment GetAssignment ()
+    public PExpression GetExpression ()
     {
-        return _assignment_;
+        return _expression_;
     }
 
-    public void SetAssignment (PAssignment node)
+    public void SetExpression (PExpression node)
     {
-        if(_assignment_ != null)
+        if(_expression_ != null)
         {
-            _assignment_.Parent(null);
+            _expression_.Parent(null);
         }
 
         if(node != null)
@@ -4019,7 +3847,7 @@ public sealed class AAssignStatement : PAssignStatement
             node.Parent(this);
         }
 
-        _assignment_ = node;
+        _expression_ = node;
     }
     public TEol GetEol ()
     {
@@ -4051,7 +3879,7 @@ public sealed class AAssignStatement : PAssignStatement
         return ""
             + ToString (_id_)
             + ToString (_assign_)
-            + ToString (_assignment_)
+            + ToString (_expression_)
             + ToString (_eol_)
         ;
     }
@@ -4068,9 +3896,9 @@ public sealed class AAssignStatement : PAssignStatement
             _assign_ = null;
             return;
         }
-        if ( _assignment_ == child )
+        if ( _expression_ == child )
         {
-            _assignment_ = null;
+            _expression_ = null;
             return;
         }
         if ( _eol_ == child )
@@ -4092,92 +3920,14 @@ public sealed class AAssignStatement : PAssignStatement
             SetAssign ((TAssign) newChild);
             return;
         }
-        if ( _assignment_ == oldChild )
+        if ( _expression_ == oldChild )
         {
-            SetAssignment ((PAssignment) newChild);
+            SetExpression ((PExpression) newChild);
             return;
         }
         if ( _eol_ == oldChild )
         {
             SetEol ((TEol) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AAssignment : PAssignment
-{
-    private PExpression _expression_;
-
-    public AAssignment ()
-    {
-    }
-
-    public AAssignment (
-            PExpression _expression_
-    )
-    {
-        SetExpression (_expression_);
-    }
-
-    public override Object Clone()
-    {
-        return new AAssignment (
-            (PExpression)CloneNode (_expression_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAAssignment(this);
-    }
-
-    public PExpression GetExpression ()
-    {
-        return _expression_;
-    }
-
-    public void SetExpression (PExpression node)
-    {
-        if(_expression_ != null)
-        {
-            _expression_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _expression_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_expression_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _expression_ == child )
-        {
-            _expression_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _expression_ == oldChild )
-        {
-            SetExpression ((PExpression) newChild);
             return;
         }
     }
@@ -4417,363 +4167,15 @@ public sealed class AFunctionCallStatement : PFunctionCallStatement
     }
 
 }
-public sealed class ANoParameters : PParameters
-{
-
-
-    public ANoParameters (
-    )
-    {
-    }
-
-    public override Object Clone()
-    {
-        return new ANoParameters (
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseANoParameters(this);
-    }
-
-
-    public override string ToString()
-    {
-        return ""
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-    }
-
-}
-public sealed class AYesParameters : PParameters
-{
-    private PNumParameters _num_parameters_;
-
-    public AYesParameters ()
-    {
-    }
-
-    public AYesParameters (
-            PNumParameters _num_parameters_
-    )
-    {
-        SetNumParameters (_num_parameters_);
-    }
-
-    public override Object Clone()
-    {
-        return new AYesParameters (
-            (PNumParameters)CloneNode (_num_parameters_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAYesParameters(this);
-    }
-
-    public PNumParameters GetNumParameters ()
-    {
-        return _num_parameters_;
-    }
-
-    public void SetNumParameters (PNumParameters node)
-    {
-        if(_num_parameters_ != null)
-        {
-            _num_parameters_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _num_parameters_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_num_parameters_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _num_parameters_ == child )
-        {
-            _num_parameters_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _num_parameters_ == oldChild )
-        {
-            SetNumParameters ((PNumParameters) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AOneNumParameters : PNumParameters
-{
-    private PParameter _parameter_;
-
-    public AOneNumParameters ()
-    {
-    }
-
-    public AOneNumParameters (
-            PParameter _parameter_
-    )
-    {
-        SetParameter (_parameter_);
-    }
-
-    public override Object Clone()
-    {
-        return new AOneNumParameters (
-            (PParameter)CloneNode (_parameter_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAOneNumParameters(this);
-    }
-
-    public PParameter GetParameter ()
-    {
-        return _parameter_;
-    }
-
-    public void SetParameter (PParameter node)
-    {
-        if(_parameter_ != null)
-        {
-            _parameter_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _parameter_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_parameter_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _parameter_ == child )
-        {
-            _parameter_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _parameter_ == oldChild )
-        {
-            SetParameter ((PParameter) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AMultipleNumParameters : PNumParameters
-{
-    private PNumParameters _num_parameters_;
-    private TComma _comma_;
-    private PParameter _parameter_;
-
-    public AMultipleNumParameters ()
-    {
-    }
-
-    public AMultipleNumParameters (
-            PNumParameters _num_parameters_,
-            TComma _comma_,
-            PParameter _parameter_
-    )
-    {
-        SetNumParameters (_num_parameters_);
-        SetComma (_comma_);
-        SetParameter (_parameter_);
-    }
-
-    public override Object Clone()
-    {
-        return new AMultipleNumParameters (
-            (PNumParameters)CloneNode (_num_parameters_),
-            (TComma)CloneNode (_comma_),
-            (PParameter)CloneNode (_parameter_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAMultipleNumParameters(this);
-    }
-
-    public PNumParameters GetNumParameters ()
-    {
-        return _num_parameters_;
-    }
-
-    public void SetNumParameters (PNumParameters node)
-    {
-        if(_num_parameters_ != null)
-        {
-            _num_parameters_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _num_parameters_ = node;
-    }
-    public TComma GetComma ()
-    {
-        return _comma_;
-    }
-
-    public void SetComma (TComma node)
-    {
-        if(_comma_ != null)
-        {
-            _comma_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _comma_ = node;
-    }
-    public PParameter GetParameter ()
-    {
-        return _parameter_;
-    }
-
-    public void SetParameter (PParameter node)
-    {
-        if(_parameter_ != null)
-        {
-            _parameter_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _parameter_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_num_parameters_)
-            + ToString (_comma_)
-            + ToString (_parameter_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _num_parameters_ == child )
-        {
-            _num_parameters_ = null;
-            return;
-        }
-        if ( _comma_ == child )
-        {
-            _comma_ = null;
-            return;
-        }
-        if ( _parameter_ == child )
-        {
-            _parameter_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _num_parameters_ == oldChild )
-        {
-            SetNumParameters ((PNumParameters) newChild);
-            return;
-        }
-        if ( _comma_ == oldChild )
-        {
-            SetComma ((TComma) newChild);
-            return;
-        }
-        if ( _parameter_ == oldChild )
-        {
-            SetParameter ((PParameter) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AParameter : PParameter
+public sealed class AOneParameters : PParameters
 {
     private PExpression _expression_;
 
-    public AParameter ()
+    public AOneParameters ()
     {
     }
 
-    public AParameter (
+    public AOneParameters (
             PExpression _expression_
     )
     {
@@ -4782,14 +4184,14 @@ public sealed class AParameter : PParameter
 
     public override Object Clone()
     {
-        return new AParameter (
+        return new AOneParameters (
             (PExpression)CloneNode (_expression_)
         );
     }
 
     public override void Apply(Switch sw)
     {
-        ((Analysis) sw).CaseAParameter(this);
+        ((Analysis) sw).CaseAOneParameters(this);
     }
 
     public PExpression GetExpression ()
@@ -4840,6 +4242,198 @@ public sealed class AParameter : PParameter
             SetExpression ((PExpression) newChild);
             return;
         }
+    }
+
+}
+public sealed class AMultipleParameters : PParameters
+{
+    private PParameters _parameters_;
+    private TComma _comma_;
+    private PExpression _expression_;
+
+    public AMultipleParameters ()
+    {
+    }
+
+    public AMultipleParameters (
+            PParameters _parameters_,
+            TComma _comma_,
+            PExpression _expression_
+    )
+    {
+        SetParameters (_parameters_);
+        SetComma (_comma_);
+        SetExpression (_expression_);
+    }
+
+    public override Object Clone()
+    {
+        return new AMultipleParameters (
+            (PParameters)CloneNode (_parameters_),
+            (TComma)CloneNode (_comma_),
+            (PExpression)CloneNode (_expression_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAMultipleParameters(this);
+    }
+
+    public PParameters GetParameters ()
+    {
+        return _parameters_;
+    }
+
+    public void SetParameters (PParameters node)
+    {
+        if(_parameters_ != null)
+        {
+            _parameters_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _parameters_ = node;
+    }
+    public TComma GetComma ()
+    {
+        return _comma_;
+    }
+
+    public void SetComma (TComma node)
+    {
+        if(_comma_ != null)
+        {
+            _comma_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _comma_ = node;
+    }
+    public PExpression GetExpression ()
+    {
+        return _expression_;
+    }
+
+    public void SetExpression (PExpression node)
+    {
+        if(_expression_ != null)
+        {
+            _expression_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_parameters_)
+            + ToString (_comma_)
+            + ToString (_expression_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _parameters_ == child )
+        {
+            _parameters_ = null;
+            return;
+        }
+        if ( _comma_ == child )
+        {
+            _comma_ = null;
+            return;
+        }
+        if ( _expression_ == child )
+        {
+            _expression_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _parameters_ == oldChild )
+        {
+            SetParameters ((PParameters) newChild);
+            return;
+        }
+        if ( _comma_ == oldChild )
+        {
+            SetComma ((TComma) newChild);
+            return;
+        }
+        if ( _expression_ == oldChild )
+        {
+            SetExpression ((PExpression) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class APassParameters : PParameters
+{
+
+
+    public APassParameters (
+    )
+    {
+    }
+
+    public override Object Clone()
+    {
+        return new APassParameters (
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAPassParameters(this);
+    }
+
+
+    public override string ToString()
+    {
+        return ""
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
     }
 
 }

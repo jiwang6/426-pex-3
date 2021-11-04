@@ -524,6 +524,72 @@ namespace CS426.analysis
             }
         }
 
+        public override void OutAEqualsExpression6(AEqualsExpression6 node)
+        {
+            Definition expression6Def;
+            Definition expression5Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression6(), out expression6Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression5(), out expression5Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression6Def.name != expression5Def.name)
+            {
+                PrintWarning(node.GetEquivalent(), "Could not compare " + expression6Def.name
+                    + " and " + expression5Def.name);
+            }
+            else if (!(expression6Def is NumberDefinition))
+            {
+                PrintWarning(node.GetEquivalent(), "Could not compare something of type"
+                    + expression6Def.name);
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression6Def);
+            }
+        }
+
+        public override void OutANotEqualExpression6(ANotEqualExpression6 node)
+        {
+            Definition expression6Def;
+            Definition expression5Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression6(), out expression6Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression5(), out expression5Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression6Def.name != expression5Def.name)
+            {
+                PrintWarning(node.GetNotEquivalent(), "Could not compare " + expression6Def.name
+                    + " and " + expression5Def.name);
+            }
+            else if (!(expression6Def is NumberDefinition))
+            {
+                PrintWarning(node.GetNotEquivalent(), "Could not compare something of type"
+                    + expression6Def.name);
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression6Def);
+            }
+        }
+
         // --------------------------------------------------------------
         // EXPRESSION 7
         // --------------------------------------------------------------
@@ -600,7 +666,7 @@ namespace CS426.analysis
         public override void OutAAssignStatement(AAssignStatement node)
         {
             Definition idDef;
-            Definition assignmentDef;
+            Definition expressionDef;
 
             if (!localSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
@@ -610,36 +676,20 @@ namespace CS426.analysis
             {
                 PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is not a variable");
             }
-            else if (!decoratedParseTree.TryGetValue(node.GetAssignment(), out assignmentDef))
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
             {
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (((VariableDefinition)idDef).variableType.name != assignmentDef.name)
+            else if (((VariableDefinition)idDef).variableType.name != expressionDef.name)
             {
-                PrintWarning(node.GetId(), "Cannot assign value of type " + assignmentDef.name 
+                PrintWarning(node.GetId(), "Cannot assign value of type " + expressionDef.name 
                     + " to variable of type " + ((VariableDefinition)idDef).variableType.name);
             }
             else
             {
                 // NOTHING IS REQUIRED ONCE ALL THE TESTS HAVE PASSED
-            }
-        }
-
-        public override void OutAAssignment(AAssignment node)
-        {
-            Definition expressionDef;
-
-            if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
-            {
-                // We are checking to see if the node below us was decorated.
-                // We don't have to print an error, because if something bad happened
-                // the error would have been printed at the lower node.
-            }
-            else
-            {
-                decoratedParseTree.Add(node, expressionDef);
             }
         }
 
@@ -699,7 +749,7 @@ namespace CS426.analysis
             //        you discover them!
         }
 
-        public override void OutAParameter(AParameter node)
+        public override void OutAOneParameters(AOneParameters node)
         {
             Definition expressionDef;
 
@@ -709,9 +759,25 @@ namespace CS426.analysis
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (!(expressionDef is NumberDefinition) || !(expressionDef is StringDefinition))
+            else
             {
-                Console.WriteLine("Invalid Parameter: " + expressionDef);
+                decoratedParseTree.Add(node, expressionDef);
+            }
+        }
+
+        public override void OutAMultipleParameters(AMultipleParameters node)
+        {
+            Definition expressionDef;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expressionDef);
             }
         }
 
