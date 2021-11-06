@@ -1,12 +1,10 @@
-﻿function foo() {
+﻿function foo(int a, int c) {
     int x;
-    string a;
-    string b;
-    if (a && b) {
-        x = 10 + (5 - 2);
-    }
+    x = a + 5;
 }
 
 function main() {
-    foo();
+    string s;
+    int b;
+    foo(b, s);
 }

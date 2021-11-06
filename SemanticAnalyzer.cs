@@ -8,6 +8,10 @@ namespace CS426.analysis
 {
     class SemanticAnalyzer : DepthFirstAdapter
     {
+        // List
+        List<VariableDefinition> argumentsList = new List<VariableDefinition>(); // for function definitions
+        List<Definition> parametersList = new List<Definition>(); // for function call statements
+        
         // This symbol table keeps track of global "stuff"
         Dictionary<string, Definition> globalSymbolTable = new Dictionary<string, Definition>();
 
@@ -738,7 +742,7 @@ namespace CS426.analysis
         {
             Definition idDef;
 
-            if (!globalSymbolTable.TryGetValue(node.GetId().Text, out idDef))
+            if (globalSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
                 PrintWarning(node.GetId(), "Identifier " + node.GetId().Text + " is already being used");
             }
@@ -746,24 +750,28 @@ namespace CS426.analysis
             {
                 // Wipes out the local symbol table
                 localSymbolTable = new Dictionary<string, Definition>();
-
-                // Registers the New Function Definition in the Global Table
-                FunctionDefinition newFunctionDefinition = new FunctionDefinition();
-                newFunctionDefinition.name = node.GetId().Text;
-
-                // TODO:  You will have to figure out how to populate this with parameters
-                // when you work on PEX 3
-                newFunctionDefinition.parameters = new List<VariableDefinition>();
-
-                // Adds the Function!
-                globalSymbolTable.Add(node.GetId().Text, newFunctionDefinition);
+                argumentsList = new List<VariableDefinition>();
             }
         }
-
+        
         public override void OutAFunction(AFunction node)
-        {      
+        {
+            // Registers the New Function Definition in the Global Table
+            FunctionDefinition newFunctionDefinition = new FunctionDefinition();
+            newFunctionDefinition.name = node.GetId().Text;
+
+            // TODO:  You will have to figure out how to populate this with parameters
+            // when you work on PEX 3
+            newFunctionDefinition.parameters = new List<VariableDefinition>();
+            newFunctionDefinition.parameters = argumentsList;
+
+            // Adds the Function!
+            globalSymbolTable.Add(node.GetId().Text, newFunctionDefinition);
+
+
             // Wipes out the local symbol table so that the next function doesn't have to deal with it
             localSymbolTable = new Dictionary<string, Definition>();
+            argumentsList = new List<VariableDefinition>();
         }
 
         // --------------------------------------------------------------
@@ -793,9 +801,7 @@ namespace CS426.analysis
                 newVariableDefinition.variableType = (TypeDefinition)typeDef;
 
                 localSymbolTable.Add(node.GetVarname().Text, newVariableDefinition);
-
-
-                //FIXME!!: will also need to add to a function symbol table for when we call a function to check proper arguments!!!!
+                argumentsList.Add(newVariableDefinition);
             }
         }
 
@@ -830,9 +836,7 @@ namespace CS426.analysis
                 newVariableDefinition.variableType = (TypeDefinition)typeDef;
 
                 localSymbolTable.Add(node.GetVarname().Text, newVariableDefinition);
-
-
-                //FIXME!!: will also need to add to a function symbol table for when we call a function to check proper arguments!!!!
+                argumentsList.Add(newVariableDefinition);
             }
         }
 
@@ -851,6 +855,27 @@ namespace CS426.analysis
             {
                 PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is not a function");
             }
+            else if (((FunctionDefinition)idDef).parameters.Count() != parametersList.Count())
+            {
+                Console.WriteLine(((FunctionDefinition)idDef).parameters.Count());
+                Console.WriteLine(parametersList.Count());
+                PrintWarning(node.GetId(), "ID " + node.GetId().Text + " does not contain the correct number of parameters");
+            }
+            else
+            {
+                for (int i=0; i < ((FunctionDefinition)idDef).parameters.Count(); i++)
+                {
+                    if (((FunctionDefinition)idDef).parameters[i].variableType.name != parametersList[i].name)
+                    {
+                        PrintWarning(node.GetId(), "ID " + node.GetId().Text + " has improper parameter types");
+                    }
+                }
+            }
+
+
+
+            // ensure parametersList is empty
+            parametersList = new List<Definition>();
 
             // TODO:  Verify parameters are in the correct order, and are of the correct type
             // HINT:  You can use a class variable to "build" a list of the parameters as
@@ -873,6 +898,7 @@ namespace CS426.analysis
             else
             {
                 decoratedParseTree.Add(node, expressionDef);
+                parametersList.Add(expressionDef);
             }
         }
 
@@ -889,6 +915,7 @@ namespace CS426.analysis
             else
             {
                 decoratedParseTree.Add(node, expressionDef);
+                parametersList.Add(expressionDef);
             }
         }
 
