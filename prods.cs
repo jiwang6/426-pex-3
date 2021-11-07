@@ -1669,123 +1669,6 @@ public sealed class AMain : PMain
     }
 
 }
-public sealed class ASingleArguments : PArguments
-{
-    private TId _type_;
-    private TId _varname_;
-
-    public ASingleArguments ()
-    {
-    }
-
-    public ASingleArguments (
-            TId _type_,
-            TId _varname_
-    )
-    {
-        SetType (_type_);
-        SetVarname (_varname_);
-    }
-
-    public override Object Clone()
-    {
-        return new ASingleArguments (
-            (TId)CloneNode (_type_),
-            (TId)CloneNode (_varname_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseASingleArguments(this);
-    }
-
-    public TId GetType ()
-    {
-        return _type_;
-    }
-
-    public void SetType (TId node)
-    {
-        if(_type_ != null)
-        {
-            _type_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _type_ = node;
-    }
-    public TId GetVarname ()
-    {
-        return _varname_;
-    }
-
-    public void SetVarname (TId node)
-    {
-        if(_varname_ != null)
-        {
-            _varname_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _varname_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_type_)
-            + ToString (_varname_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _type_ == child )
-        {
-            _type_ = null;
-            return;
-        }
-        if ( _varname_ == child )
-        {
-            _varname_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _type_ == oldChild )
-        {
-            SetType ((TId) newChild);
-            return;
-        }
-        if ( _varname_ == oldChild )
-        {
-            SetVarname ((TId) newChild);
-            return;
-        }
-    }
-
-}
 public sealed class AMultipleArguments : PArguments
 {
     private PArguments _arguments_;
@@ -1968,6 +1851,123 @@ public sealed class AMultipleArguments : PArguments
             SetComma ((TComma) newChild);
             return;
         }
+        if ( _type_ == oldChild )
+        {
+            SetType ((TId) newChild);
+            return;
+        }
+        if ( _varname_ == oldChild )
+        {
+            SetVarname ((TId) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class ASingleArguments : PArguments
+{
+    private TId _type_;
+    private TId _varname_;
+
+    public ASingleArguments ()
+    {
+    }
+
+    public ASingleArguments (
+            TId _type_,
+            TId _varname_
+    )
+    {
+        SetType (_type_);
+        SetVarname (_varname_);
+    }
+
+    public override Object Clone()
+    {
+        return new ASingleArguments (
+            (TId)CloneNode (_type_),
+            (TId)CloneNode (_varname_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseASingleArguments(this);
+    }
+
+    public TId GetType ()
+    {
+        return _type_;
+    }
+
+    public void SetType (TId node)
+    {
+        if(_type_ != null)
+        {
+            _type_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _type_ = node;
+    }
+    public TId GetVarname ()
+    {
+        return _varname_;
+    }
+
+    public void SetVarname (TId node)
+    {
+        if(_varname_ != null)
+        {
+            _varname_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _varname_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_type_)
+            + ToString (_varname_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _type_ == child )
+        {
+            _type_ = null;
+            return;
+        }
+        if ( _varname_ == child )
+        {
+            _varname_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
         if ( _type_ == oldChild )
         {
             SetType ((TId) newChild);

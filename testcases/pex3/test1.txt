@@ -4,7 +4,7 @@
 }
 
 function main() {
-    string s;
+    int s;
     int b;
     foo(b, s);
 }

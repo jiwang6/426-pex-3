@@ -762,8 +762,7 @@ namespace CS426.analysis
 
             // TODO:  You will have to figure out how to populate this with parameters
             // when you work on PEX 3
-            newFunctionDefinition.parameters = new List<VariableDefinition>();
-            newFunctionDefinition.parameters = argumentsList;
+            newFunctionDefinition.parameters = new List<VariableDefinition>(argumentsList);
 
             // Adds the Function!
             globalSymbolTable.Add(node.GetId().Text, newFunctionDefinition);
@@ -807,17 +806,10 @@ namespace CS426.analysis
 
         public override void OutAMultipleArguments(AMultipleArguments node)
         {
-            Definition argumentsDef;
             Definition typeDef;
             Definition idDef;
-
-            if (!decoratedParseTree.TryGetValue(node.GetArguments(), out argumentsDef))
-            {
-                // We are checking to see if the node below us was decorated.
-                // We don't have to print an error, because if something bad happened
-                // the error would have been printed at the lower node.
-            }
-            else if (!globalSymbolTable.TryGetValue(node.GetType().Text, out typeDef))
+ 
+            if (!globalSymbolTable.TryGetValue(node.GetType().Text, out typeDef))
             {
                 // If the type doesn't exist, throw an error
                 PrintWarning(node.GetType(), "Type " + node.GetType().Text + " does not exist");
@@ -857,8 +849,6 @@ namespace CS426.analysis
             }
             else if (((FunctionDefinition)idDef).parameters.Count() != parametersList.Count())
             {
-                Console.WriteLine(((FunctionDefinition)idDef).parameters.Count());
-                Console.WriteLine(parametersList.Count());
                 PrintWarning(node.GetId(), "ID " + node.GetId().Text + " does not contain the correct number of parameters");
             }
             else

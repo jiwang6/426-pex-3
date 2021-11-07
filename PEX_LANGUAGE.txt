@@ -73,7 +73,7 @@ Productions
 	function = keyword_function id left_parenthesis arguments right_parenthesis open_brace statements closed_brace;
 	main = keyword_function keyword_main left_parenthesis right_parenthesis open_brace statements closed_brace; // forcing main to not have any arguments
 
-	arguments = {single} [type]:id [varname]:id | {multiple} arguments comma [type]:id [varname]:id | {pass} ;
+	arguments = {multiple} arguments comma [type]:id [varname]:id | {single} [type]:id [varname]:id | {pass} ;
 
 	statements = {multiple} statement statements | {if} if_statement statements | {if_else} if_else_statement statements | {while} while_statement statements | {pass} ;
 	statement = {assignment} assign_statement | {declaration} declare_statement | {call} function_call_statement;

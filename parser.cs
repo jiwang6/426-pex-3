@@ -861,20 +861,6 @@ public class Parser
     ArrayList New9()
     {
         ArrayList nodeList = new ArrayList();
-        ArrayList nodeArrayList2 = (ArrayList) Pop();
-        ArrayList nodeArrayList1 = (ArrayList) Pop();
-        TId tidNode2 = (TId)nodeArrayList1[0];
-        TId tidNode3 = (TId)nodeArrayList2[0];
-        ASingleArguments pargumentsNode1 = new ASingleArguments (
-              tidNode2,
-              tidNode3
-        );
-        nodeList.Add(pargumentsNode1);
-        return nodeList;
-    }
-    ArrayList New10()
-    {
-        ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList4 = (ArrayList) Pop();
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
@@ -888,6 +874,20 @@ public class Parser
               tcommaNode3,
               tidNode4,
               tidNode5
+        );
+        nodeList.Add(pargumentsNode1);
+        return nodeList;
+    }
+    ArrayList New10()
+    {
+        ArrayList nodeList = new ArrayList();
+        ArrayList nodeArrayList2 = (ArrayList) Pop();
+        ArrayList nodeArrayList1 = (ArrayList) Pop();
+        TId tidNode2 = (TId)nodeArrayList1[0];
+        TId tidNode3 = (TId)nodeArrayList2[0];
+        ASingleArguments pargumentsNode1 = new ASingleArguments (
+              tidNode2,
+              tidNode3
         );
         nodeList.Add(pargumentsNode1);
         return nodeList;
@@ -1690,7 +1690,7 @@ public class Parser
         new int[] {30, 0, 57},
       },
       new int[][] {
-        new int[] {-1, 1, 9},
+        new int[] {-1, 1, 10},
       },
       new int[][] {
         new int[] {-1, 3, 38},
@@ -1999,7 +1999,7 @@ public class Parser
         new int[] {26, 0, 101},
       },
       new int[][] {
-        new int[] {-1, 1, 10},
+        new int[] {-1, 1, 9},
       },
       new int[][] {
         new int[] {-1, 3, 94},
