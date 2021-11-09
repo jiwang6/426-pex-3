@@ -58,7 +58,34 @@
     <Content Include="pex_test_results.txt" />
     <Content Include="testcases\pex1\test1.txt" />
     <Content Include="testcases\pex2\test1.txt" />
-    <Content Include="testcases\pex3\test1.txt" />
+    <Content Include="testcases\pex3\errorList.txt" />
+    <Content Include="testcases\pex3\FAIL_arith-in-logic.txt" />
+    <Content Include="testcases\pex3\FAIL_arith-in-logic2.txt" />
+    <Content Include="testcases\pex3\FAIL_arith-operator.txt" />
+    <Content Include="testcases\pex3\FAIL_assign-no-val.txt" />
+    <Content Include="testcases\pex3\FAIL_assign-num-to-var.txt" />
+    <Content Include="testcases\pex3\FAIL_const-reassignment.txt" />
+    <Content Include="testcases\pex3\FAIL_funct-arg-declare.txt" />
+    <Content Include="testcases\pex3\FAIL_funct-arg-redeclare.txt" />
+    <Content Include="testcases\pex3\FAIL_funct-call-assign-int.txt" />
+    <Content Include="testcases\pex3\FAIL_funct-call-param-count.txt" />
+    <Content Include="testcases\pex3\FAIL_funct-calls-param-type.txt" />
+    <Content Include="testcases\pex3\FAIL_funct-redeclare.txt" />
+    <Content Include="testcases\pex3\FAIL_funct-unassigned-vars.txt" />
+    <Content Include="testcases\pex3\FAIL_logic-in-call.txt" />
+    <Content Include="testcases\pex3\FAIL_logic-type-mismatch.txt" />
+    <Content Include="testcases\pex3\FAIL_redeclaration.txt" />
+    <Content Include="testcases\pex3\FAIL_type-assignment-permutations.txt" />
+    <Content Include="testcases\pex3\FAIL_undeclared-var-assign.txt" />
+    <Content Include="testcases\pex3\FAIL_var-funct-call.txt" />
+    <Content Include="testcases\pex3\PASS_arith-operator.txt" />
+    <Content Include="testcases\pex3\PASS_funct-calls.txt" />
+    <Content Include="testcases\pex3\PASS_function-arg-declare.txt" />
+    <Content Include="testcases\pex3\PASS_redeclare-sep-funct.txt" />
+    <Content Include="testcases\pex3\PASS_template-test.txt" />
+    <Content Include="testcases\pex3\PASS_type-assignment-permutations.txt" />
+    <Content Include="testcases\pex3\SANDBOX.txt" />
+    <Content Include="testcases\pex3\temp.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

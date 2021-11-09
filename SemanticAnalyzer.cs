@@ -34,15 +34,15 @@ namespace CS426.analysis
             intDefinition.name = "int";
 
             // Create Definition for Float
-            // Definition floatDefinition = new NumberDefinition();
-            // intDefinition.name = "float";
+            Definition floatDefinition = new NumberDefinition();
+            floatDefinition.name = "float";
 
             // Create Definition for Strings
             Definition strDefinition = new StringDefinition();
             strDefinition.name = "string";
 
             globalSymbolTable.Add("int", intDefinition);
-            // globalSymbolTable.Add("float", intDefinition);
+            globalSymbolTable.Add("float", floatDefinition);
             globalSymbolTable.Add("string", strDefinition);
         }
 
@@ -59,7 +59,7 @@ namespace CS426.analysis
             decoratedParseTree.Add(node, intDefinition);
         }
 
-        /* public override void OutAFloatOperand(AFloatOperand node)
+        public override void OutAFloatOperand(AFloatOperand node)
         {
             // Creates the Definition Object we will add to our parse tree
             Definition floatDefinition = new NumberDefinition();
@@ -68,7 +68,7 @@ namespace CS426.analysis
             // Adds this node to the decorated parse tree
             decoratedParseTree.Add(node, floatDefinition);
         }
-        */
+        
 
         public override void OutAStringOperand(AStringOperand node)
         {
@@ -90,7 +90,7 @@ namespace CS426.analysis
             Definition varDefinition;
             
             // Checks the symbol table to see if the variable has been declared
-            if (!localSymbolTable.TryGetValue(varName, out varDefinition))
+            if (!localSymbolTable.TryGetValue(varName, out varDefinition) && !globalSymbolTable.TryGetValue(varName, out varDefinition))
             {
                 // Prints out a warning that the variable does not exist
                 PrintWarning(node.GetId(), "Variable " + varName + " does not exist");
@@ -405,7 +405,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -438,7 +440,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -471,7 +475,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -504,7 +510,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -557,7 +565,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, expression6Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -590,7 +600,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, expression6Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -614,6 +626,39 @@ namespace CS426.analysis
             }
         }
 
+        public override void OutAAndComparisonExpression7(AAndComparisonExpression7 node)
+        {
+            Definition expression7Def;
+            Definition expression6Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression7(), out expression7Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression6(), out expression6Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression7Def.GetType() != expression6Def.GetType())
+            {
+                PrintWarning(node.GetAnd(), "Cannot complete AND operation of different types");
+            }
+            else if (expression7Def.name != "bool")
+            {
+                PrintWarning(node.GetAnd(), "Type must be boolean for AND operation");
+            }
+            else
+            {
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
+            }
+        }
+
         // --------------------------------------------------------------
         // EXPRESSION
         // --------------------------------------------------------------
@@ -633,6 +678,40 @@ namespace CS426.analysis
                 decoratedParseTree.Add(node, expression7Def);
             }
         }
+
+        public override void OutAOrComparisonExpression(AOrComparisonExpression node)
+        {
+            Definition expressionDef;
+            Definition expression7Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression7(), out expression7Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression7Def.GetType() != expressionDef.GetType())
+            {
+                PrintWarning(node.GetOr(), "Cannot complete OR operation of different types");
+            }
+            else if (expressionDef.name != "bool")
+            {
+                PrintWarning(node.GetOr(), "Type must be boolean for OR operation");
+            }
+            else
+            {
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
+            }
+        }
+
 
         // --------------------------------------------------------------
         // DECLARE STATEMENT
@@ -672,7 +751,11 @@ namespace CS426.analysis
             Definition idDef;
             Definition expressionDef;
 
-            if (!localSymbolTable.TryGetValue(node.GetId().Text, out idDef))
+            if (globalSymbolTable.TryGetValue(node.GetId().Text, out idDef))
+            {
+                PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is a constant and cannot be reassigned");      //FIXME!! is this true?? can you only have constants in globalSymbolTable or can you have regular variables too???
+            }
+            else if (!localSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
                 PrintWarning(node.GetId(), "ID " + node.GetId().Text + " does not exist");
             }
