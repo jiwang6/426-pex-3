@@ -41,61 +41,55 @@ echo. >> %file%
 :: ----------------------------------------
 echo Running Incorrect Test Cases >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_arith-in-logic.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_arith-in-logic2.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_arith-operator.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_assign-num-to-var.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_const-reassignment.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_funct-arg-declare.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_funct-arg-redeclare.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_funct-call-param-count.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_funct-calls-param-type.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_funct-redeclare.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_funct-unassigned-vars.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_logic-in-call.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_logic-type-mismatch.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_redeclaration.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_type-assignment-permutations.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_undeclared-var-assign.txt >> %file%
 echo. >> %file%
 echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
-echo. >> %file%
-echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
-echo. >> %file%
-echo. >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_var-funct-call.txt >> %file%
 echo. >> %file%
 echo. >> %file%
 
