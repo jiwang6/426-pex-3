@@ -3,7 +3,7 @@
 function main() {
 	int a;
 	
-	while (3 == 3.2) {
+	while (3 == "string") {
 		a = 2;
 	}
 }
