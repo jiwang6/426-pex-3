@@ -1,0 +1,9 @@
+// we check if we can define two identical arguments
+
+function bool (int x, int x) {
+	x = 2022;
+}
+
+function main() {
+
+}

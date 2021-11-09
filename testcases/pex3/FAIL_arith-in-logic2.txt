@@ -1,0 +1,11 @@
+// we check if arithmetic in composite logical statements work
+
+function main() {
+	int a;
+	int b;
+	int c;
+	
+	if ((a + b) && (b == c)) { // should fail
+		a = c;
+	}
+}

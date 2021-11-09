@@ -1,0 +1,7 @@
+// we check if we can redeclare a
+function main() {
+	int a;
+	a = 3;
+	
+	int a;
+}

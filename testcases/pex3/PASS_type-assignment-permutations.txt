@@ -1,0 +1,12 @@
+// we check if assignments match their declared datatypes
+
+function main() {
+	
+	int a;
+	float b;
+	string c;
+	
+	a = 1;
+	b = 1.2;
+	c = "help"
+}

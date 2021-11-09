@@ -1,0 +1,24 @@
+constant int a = 5;
+
+function foo(int a, int b) {
+    int x;
+    x = a + 5;
+}
+
+function bar (string a) {
+	a = "pain";
+}
+
+
+function main() {
+	
+	int a;
+	a = 5.2;
+	// you can assign float values to int - floats haven't been implemented yet
+	
+	string b;
+	b = "5";
+	
+	
+	
+}

@@ -1,0 +1,11 @@
+// we check if we can call with a logic statement
+
+function foo(int a) {
+	a = 2;
+}
+
+
+function main() {
+	int a;
+	foo(a == 3);
+}

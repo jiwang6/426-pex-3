@@ -1,0 +1,9 @@
+// we check if we can redeclare constant values
+
+constant int const_int = 1;
+constant string const_string = "help";
+
+function main() {
+	const_int = 2;
+	const_string = "no";
+}

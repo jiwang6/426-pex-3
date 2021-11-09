@@ -1,0 +1,15 @@
+// Here we are checking if assignments match their declaration datatypes
+// All three statements should fail
+
+function main() {
+	
+	int a;
+	float b;
+	string c;
+	
+	a = 1.2;
+	b = "help";
+	c = 1;
+	
+	a = (1 == 1);
+}

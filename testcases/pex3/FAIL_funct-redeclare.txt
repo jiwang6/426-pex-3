@@ -1,0 +1,13 @@
+// we check if we can declare two identical function names
+
+function bool (int x) {
+	x = 2022;
+}
+
+function bool (int x) {
+	x = 28;
+}
+
+function main() {
+
+}

@@ -1,0 +1,14 @@
+// we check if we can call a function with a var name
+
+function bool (int x, int y) {
+	x = 2022;
+}
+
+function main() {
+	int a;
+	int b;
+	
+	int x;
+	
+	x(a, b);
+}

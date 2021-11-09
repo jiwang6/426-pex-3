@@ -1,0 +1,7 @@
+// we check data-type matching
+
+function main() {
+	int x;
+	
+	x = 1 + 1;
+}

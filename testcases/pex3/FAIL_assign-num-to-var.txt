@@ -1,0 +1,9 @@
+// here we check if we can reassign 3 to a variable
+
+function main() {
+	int a;
+	
+	a = 2;
+	
+	3 = a; // fail here
+}

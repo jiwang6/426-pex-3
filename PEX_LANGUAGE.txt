@@ -37,7 +37,7 @@ Tokens
 
 	// Strings
 	escape_quote = '\”';
-	string = '“' ([[0 .. 0xffff] - [10 + 13]])* '”';
+	string = '"' ([[0 .. 0xffff] - [10 + 13]])* '"';
 
 	left_parenthesis = '(';
 	right_parenthesis = ')';

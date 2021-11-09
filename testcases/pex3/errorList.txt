@@ -1,0 +1,98 @@
+KEY:
+	fw : should fail but works 
+	wf : should work but fails here
+	
+
+//////////////////// ERROR LIST ////////////////////
+
+implement float datatype
+	float a;
+
+can assign bool values to int datatype
+	specifically, bool values take int dataype
+		int a;
+		a = (1 == 1); // fw
+
+constant variables do not exist
+
+	constant int const_int = 1;
+	constant string const_string = "help";
+
+	function main() {
+		int a;
+		a = const_int + 2; // wf
+	}
+
+arith expression in logic
+	function main() {
+		int a;
+		a = 1;
+		
+		if (a + 2) { // fw
+			a = 2;
+		}
+
+	}
+	
+arith in logic
+	function main() {
+		int a;
+		int b;
+		int c;
+		
+		if ((a + b) && (b == c)) { // fw
+			a = c;
+		}
+	}
+	
+logic in funct call
+	function foo(int a) {
+		a = 2;
+	}
+
+
+	function main() { // fw
+		int a;
+		foo(a == 3);
+	}
+	
+wacky assign :
+	function foo(int a) {
+		a = 2;
+	}
+
+
+	function main() {
+		int a;
+		foo(2); // fw
+
+	}
+	
+compare float with int
+	function main() {
+		int a;
+		
+		if (3 == 3.2) { // fw
+			a = 2;
+		}
+	}
+	
+assign no values
+	function main() {
+		int a;
+		int b;
+		
+		a = b; // fw
+	}
+	
+funct call on unassigned vars
+	function bool (int x, int y) {
+		x = 2022;
+	}
+
+	function main() {
+		int a;
+		int b;
+		
+		bool(a, b); // fw
+	}

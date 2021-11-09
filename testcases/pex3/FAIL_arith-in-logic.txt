@@ -1,0 +1,15 @@
+// we check if we can have arithmetic expressions where logic is needed
+
+function main() {
+	int a;
+	a = 1;
+	
+	if (a + 2) { // this should fail
+		a = 2;
+	}
+	
+	while (a + 2) {
+		a = 2;
+	}
+
+}

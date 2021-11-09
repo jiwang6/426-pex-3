@@ -1,0 +1,12 @@
+// Testing type-matching between declarations within function arguments and
+//     function definition.
+
+function foo(int a, string c) {
+    int x;
+    x = a + c;   // this should fail as it's adding an int to a string
+	x = x + 5.2; // this should fail as it's adding an into to float
+}
+
+function main() {
+
+}

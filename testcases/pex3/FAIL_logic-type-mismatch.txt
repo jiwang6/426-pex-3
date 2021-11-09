@@ -1,0 +1,9 @@
+//we check if we can compare two datatypes
+
+function main() {
+	int a;
+	
+	while (3 == 3.2) {
+		a = 2;
+	}
+}
