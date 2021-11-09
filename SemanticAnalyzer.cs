@@ -660,10 +660,10 @@ namespace CS426.analysis
         }
 
         // --------------------------------------------------------------
-        // EXPRESSION
+        // EXPRESSION8
         // --------------------------------------------------------------
 
-        public override void OutAPassExpression(APassExpression node)
+        public override void OutAPassExpression8(APassExpression8 node)
         {
             Definition expression7Def;
 
@@ -679,9 +679,9 @@ namespace CS426.analysis
             }
         }
 
-        public override void OutAOrComparisonExpression(AOrComparisonExpression node)
+        public override void OutAOrComparisonExpression8(AOrComparisonExpression8 node)
         {
-            Definition expressionDef;
+            Definition expression8Def;
             Definition expression7Def;
 
             if (!decoratedParseTree.TryGetValue(node.GetExpression7(), out expression7Def))
@@ -690,17 +690,17 @@ namespace CS426.analysis
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression8(), out expression8Def))
             {
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
-            else if (expression7Def.GetType() != expressionDef.GetType())
+            else if (expression7Def.GetType() != expression8Def.GetType())
             {
                 PrintWarning(node.GetOr(), "Cannot complete OR operation of different types");
             }
-            else if (expressionDef.name != "bool")
+            else if (expression8Def.name != "bool")
             {
                 PrintWarning(node.GetOr(), "Type must be boolean for OR operation");
             }
@@ -712,6 +712,47 @@ namespace CS426.analysis
             }
         }
 
+        // --------------------------------------------------------------
+        // EXPRESSION
+        // --------------------------------------------------------------
+
+        public override void OutAPassExpression(APassExpression node)
+        {
+            Definition expression8Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression8(), out expression8Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression8Def);
+            }
+        }
+
+        public override void OutANegateExpression(ANegateExpression node)
+        {
+            Definition expression8Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression8(), out expression8Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression8Def.name != "bool")
+            {
+                PrintWarning(node.GetNot(), "Type must be boolean for NOT operation");
+            }
+            else
+            {
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
+            }
+        }
 
         // --------------------------------------------------------------
         // DECLARE STATEMENT
@@ -753,7 +794,7 @@ namespace CS426.analysis
 
             if (globalSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
-                PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is a constant and cannot be reassigned");      //FIXME!! is this true?? can you only have constants in globalSymbolTable or can you have regular variables too???
+                PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is a constant and cannot be reassigned");
             }
             else if (!localSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
@@ -793,6 +834,10 @@ namespace CS426.analysis
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
+            else if (expressionDef.name != "bool")
+            {
+                PrintWarning(node.GetKeywordWhile(), "Condition for while statement must be boolean");
+            }
             else
             {
                 decoratedParseTree.Add(node, expressionDef);
@@ -811,6 +856,10 @@ namespace CS426.analysis
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
+            }
+            else if (expressionDef.name != "bool")
+            {
+                PrintWarning(node.GetKeywordIf(), "Condition for if statement must be boolean");
             }
             else
             {

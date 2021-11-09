@@ -1,8 +1,7 @@
-function foo(int a, int b) {
-	a = 3;
-}
 
-
-function main() {
-	a = 3;
-}
+	function main() {
+		int a;
+		int b;
+		
+		a = b; // fw
+	}

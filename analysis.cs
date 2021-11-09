@@ -43,8 +43,10 @@ public interface Analysis : Switch
     void CaseAOneParameters(AOneParameters node);
     void CaseAMultipleParameters(AMultipleParameters node);
     void CaseAPassParameters(APassParameters node);
-    void CaseAOrComparisonExpression(AOrComparisonExpression node);
+    void CaseANegateExpression(ANegateExpression node);
     void CaseAPassExpression(APassExpression node);
+    void CaseAOrComparisonExpression8(AOrComparisonExpression8 node);
+    void CaseAPassExpression8(APassExpression8 node);
     void CaseAAndComparisonExpression7(AAndComparisonExpression7 node);
     void CaseAPassExpression7(APassExpression7 node);
     void CaseAEqualsExpression6(AEqualsExpression6 node);
@@ -281,11 +283,19 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
-    public virtual void CaseAOrComparisonExpression(AOrComparisonExpression node)
+    public virtual void CaseANegateExpression(ANegateExpression node)
     {
         DefaultCase(node);
     }
     public virtual void CaseAPassExpression(APassExpression node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseAOrComparisonExpression8(AOrComparisonExpression8 node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseAPassExpression8(APassExpression8 node)
     {
         DefaultCase(node);
     }
@@ -1298,32 +1308,28 @@ public class DepthFirstAdapter : AnalysisAdapter
         InAPassParameters(node);
         OutAPassParameters(node);
     }
-    public virtual void InAOrComparisonExpression(AOrComparisonExpression node)
+    public virtual void InANegateExpression(ANegateExpression node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutAOrComparisonExpression(AOrComparisonExpression node)
+    public virtual void OutANegateExpression(ANegateExpression node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseAOrComparisonExpression(AOrComparisonExpression node)
+    public override void CaseANegateExpression(ANegateExpression node)
     {
-        InAOrComparisonExpression(node);
-        if(node.GetExpression() != null)
+        InANegateExpression(node);
+        if(node.GetNot() != null)
         {
-            node.GetExpression().Apply(this);
+            node.GetNot().Apply(this);
         }
-        if(node.GetOr() != null)
+        if(node.GetExpression8() != null)
         {
-            node.GetOr().Apply(this);
+            node.GetExpression8().Apply(this);
         }
-        if(node.GetExpression7() != null)
-        {
-            node.GetExpression7().Apply(this);
-        }
-        OutAOrComparisonExpression(node);
+        OutANegateExpression(node);
     }
     public virtual void InAPassExpression(APassExpression node)
     {
@@ -1338,11 +1344,57 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAPassExpression(APassExpression node)
     {
         InAPassExpression(node);
+        if(node.GetExpression8() != null)
+        {
+            node.GetExpression8().Apply(this);
+        }
+        OutAPassExpression(node);
+    }
+    public virtual void InAOrComparisonExpression8(AOrComparisonExpression8 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAOrComparisonExpression8(AOrComparisonExpression8 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAOrComparisonExpression8(AOrComparisonExpression8 node)
+    {
+        InAOrComparisonExpression8(node);
+        if(node.GetExpression8() != null)
+        {
+            node.GetExpression8().Apply(this);
+        }
+        if(node.GetOr() != null)
+        {
+            node.GetOr().Apply(this);
+        }
         if(node.GetExpression7() != null)
         {
             node.GetExpression7().Apply(this);
         }
-        OutAPassExpression(node);
+        OutAOrComparisonExpression8(node);
+    }
+    public virtual void InAPassExpression8(APassExpression8 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAPassExpression8(APassExpression8 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAPassExpression8(APassExpression8 node)
+    {
+        InAPassExpression8(node);
+        if(node.GetExpression7() != null)
+        {
+            node.GetExpression7().Apply(this);
+        }
+        OutAPassExpression8(node);
     }
     public virtual void InAAndComparisonExpression7(AAndComparisonExpression7 node)
     {
@@ -2671,32 +2723,28 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         InAPassParameters(node);
         OutAPassParameters(node);
     }
-    public virtual void InAOrComparisonExpression(AOrComparisonExpression node)
+    public virtual void InANegateExpression(ANegateExpression node)
     {
         DefaultIn(node);
     }
 
-    public virtual void OutAOrComparisonExpression(AOrComparisonExpression node)
+    public virtual void OutANegateExpression(ANegateExpression node)
     {
         DefaultOut(node);
     }
 
-    public override void CaseAOrComparisonExpression(AOrComparisonExpression node)
+    public override void CaseANegateExpression(ANegateExpression node)
     {
-        InAOrComparisonExpression(node);
-        if(node.GetExpression7() != null)
+        InANegateExpression(node);
+        if(node.GetExpression8() != null)
         {
-            node.GetExpression7().Apply(this);
+            node.GetExpression8().Apply(this);
         }
-        if(node.GetOr() != null)
+        if(node.GetNot() != null)
         {
-            node.GetOr().Apply(this);
+            node.GetNot().Apply(this);
         }
-        if(node.GetExpression() != null)
-        {
-            node.GetExpression().Apply(this);
-        }
-        OutAOrComparisonExpression(node);
+        OutANegateExpression(node);
     }
     public virtual void InAPassExpression(APassExpression node)
     {
@@ -2711,11 +2759,57 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
     public override void CaseAPassExpression(APassExpression node)
     {
         InAPassExpression(node);
+        if(node.GetExpression8() != null)
+        {
+            node.GetExpression8().Apply(this);
+        }
+        OutAPassExpression(node);
+    }
+    public virtual void InAOrComparisonExpression8(AOrComparisonExpression8 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAOrComparisonExpression8(AOrComparisonExpression8 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAOrComparisonExpression8(AOrComparisonExpression8 node)
+    {
+        InAOrComparisonExpression8(node);
         if(node.GetExpression7() != null)
         {
             node.GetExpression7().Apply(this);
         }
-        OutAPassExpression(node);
+        if(node.GetOr() != null)
+        {
+            node.GetOr().Apply(this);
+        }
+        if(node.GetExpression8() != null)
+        {
+            node.GetExpression8().Apply(this);
+        }
+        OutAOrComparisonExpression8(node);
+    }
+    public virtual void InAPassExpression8(APassExpression8 node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAPassExpression8(APassExpression8 node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAPassExpression8(APassExpression8 node)
+    {
+        InAPassExpression8(node);
+        if(node.GetExpression7() != null)
+        {
+            node.GetExpression7().Apply(this);
+        }
+        OutAPassExpression8(node);
     }
     public virtual void InAAndComparisonExpression7(AAndComparisonExpression7 node)
     {

@@ -7,21 +7,96 @@ type NUL>%file%
 :: ----------------------------------------
 :: TITLE
 :: ----------------------------------------
-echo TITLE GOES HERE >> %file%
+echo PEX3 Tests >> %file%
 echo Running Correct Test Cases >> %file%
 echo. >> %file%
 
 :: ----------------------------------------
 :: GOOD EXAMPLES
 :: ----------------------------------------
-echo Testing Declaration Statements >> %file%
-bin\Debug\ConsoleApplication.exe testcases\pex2\test1.txt >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_arith-operator.txt >> %file%
 echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_funct-calls.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_function-arg-declare.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_redeclare-sep-funct.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_template-test.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+echo. >> %file%
+echo. >> %file%
+
 
 :: ----------------------------------------
 :: BAD EXAMPLES
 :: ----------------------------------------
-::echo Running Incorrect Test Cases >> %file%
-::echo. >> %file%
+echo Running Incorrect Test Cases >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\PASS_type-assignment-permutations.txt >> %file%
+echo. >> %file%
+echo. >> %file%
 
 pause
