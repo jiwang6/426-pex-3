@@ -1,6 +1,7 @@
 constant string c = "\"test\"-M.Scott";
 
 function main() {
-	int a;
-	int b;
+	if (3 == 3.2) {
+		int a;
+	}
 }

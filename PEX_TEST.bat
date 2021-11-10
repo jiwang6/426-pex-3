@@ -111,5 +111,10 @@ echo Fails when calling a function with a variable name. >> %file%
 bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_var-funct-call.txt >> %file%
 echo. >> %file%
 echo. >> %file%
+echo Fails when constant assignment does not match declaration. >> %file%
+bin\Debug\ConsoleApplication.exe testcases\pex3\FAIL_const-assignment-type-mismatch.txt >> %file%
+echo. >> %file%
+echo. >> %file%
+
 
 pause

@@ -1636,3 +1636,38 @@ Fails when calling a function with a variable name.
 
  
  
+Fails when constant assignment does not match declaration. 
+1,1:Cannot assign value of type string to variable of type int
+
+- AProgram
+     `- AConstantLines
+        |- AConstants
+        |  |- constant
+        |  |- int
+        |  |- final_int
+        |  |- =
+        |  |- APassExpression
+        |  |  `- APassExpression8
+        |  |     `- APassExpression7
+        |  |        `- APassExpression6
+        |  |           `- APassExpression5
+        |  |              `- APassExpression4
+        |  |                 `- APassExpression3
+        |  |                    `- APassExpression2
+        |  |                       `- APassExpression1
+        |  |                          `- AStringOperand
+        |  |                             `- "abc"
+        |  `- ;
+        `- AFunctionLines
+           `- AMainFunctions
+              `- AMain
+                 |- function
+                 |- main
+                 |- (
+                 |- )
+                 `- {
+                 |- APassStatements
+                 `- }
+
+ 
+ 
