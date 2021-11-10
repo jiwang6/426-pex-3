@@ -36,7 +36,7 @@ Tokens
 	eol = ';';
 
 	// Strings
-	escape_quote = '\”';
+	escape_quote = '\"';
 	string = '"' ([[0 .. 0xffff] - [10 + 13]])* '"';
 
 	left_parenthesis = '(';

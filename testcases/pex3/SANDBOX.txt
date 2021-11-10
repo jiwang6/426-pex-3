@@ -1,4 +1,4 @@
-constant int c = "test";
+constant string c = "\"test\"-M.Scott";
 
 function main() {
 	int a;

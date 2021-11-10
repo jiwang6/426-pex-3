@@ -1044,7 +1044,7 @@ namespace CS426.analysis
         // --------------------------------------------------------------
         // CONSTANTS
         // --------------------------------------------------------------
-        public override void InAConstants(AConstants node)
+        public override void OutAConstants(AConstants node)
         { 
             Definition typeDef;
             Definition idDef;
@@ -1061,16 +1061,9 @@ namespace CS426.analysis
                 PrintWarning(node.GetVarname(), "ID " + node.GetVarname().Text
                     + " has already been declared");
             }
-            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))     // FIXME !!!
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
             {
-                // We are checking to see if the node below us was decorated.
-                // We don't have to print an error, because if something bad happened
-                // the error would have been printed at the lower node.
-            }
-            else if (((VariableDefinition)idDef).variableType.name != expressionDef.name)
-            {
-                PrintWarning(node.GetKeywordConstant(), "Cannot assign value of type " + expressionDef.name
-                    + " to variable of type " + ((VariableDefinition)idDef).variableType.name);
+                // catch error earlier on
             }
             else
             {
@@ -1079,7 +1072,14 @@ namespace CS426.analysis
                 newVariableDefinition.name = node.GetVarname().Text;
                 newVariableDefinition.variableType = (TypeDefinition)typeDef;
 
+                if (newVariableDefinition.variableType.toString() != expressionDef.name)
+                {
+                    PrintWarning(node.GetKeywordConstant(), "Cannot assign value of type " + expressionDef.name
+                        + " to variable of type " + newVariableDefinition.variableType.toString());
+                }
+
                 globalSymbolTable.Add(node.GetVarname().Text, newVariableDefinition);
+              
             }
         }
     }

@@ -778,7 +778,7 @@ public class Lexer
           new int[] {97, 122, 21},
         },
         new int[][] {
-          new int[] {8221, 8221, 49},
+          new int[] {34, 34, 49},
         },
         new int[][] {
           new int[] {49, 90, -23},
