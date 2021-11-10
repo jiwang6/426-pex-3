@@ -1048,6 +1048,7 @@ namespace CS426.analysis
         { 
             Definition typeDef;
             Definition idDef;
+            Definition expressionDef;
 
             if (!globalSymbolTable.TryGetValue(node.GetType().Text, out typeDef))
             {
@@ -1059,6 +1060,17 @@ namespace CS426.analysis
                 // If the id exists, then we can't declare something with the same name
                 PrintWarning(node.GetVarname(), "ID " + node.GetVarname().Text
                     + " has already been declared");
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))     // FIXME !!!
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (((VariableDefinition)idDef).variableType.name != expressionDef.name)
+            {
+                PrintWarning(node.GetKeywordConstant(), "Cannot assign value of type " + expressionDef.name
+                    + " to variable of type " + ((VariableDefinition)idDef).variableType.name);
             }
             else
             {

@@ -1,7 +1,6 @@
+constant int c = "test";
 
-	function main() {
-		int a;
-		int b;
-		
-		a = b; // fw
-	}
+function main() {
+	int a;
+	int b;
+}
