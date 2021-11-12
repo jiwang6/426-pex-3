@@ -1,0 +1,10 @@
+// we check funct calls with improper argument count
+
+function foo(int a) {
+	a = 3;
+}
+
+
+function main() {
+	foo();
+}

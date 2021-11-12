@@ -1,0 +1,8 @@
+// we check if we can assign from an unassigned variable
+
+function main() {
+	int a;
+	int b;
+	
+	a = b;
+}

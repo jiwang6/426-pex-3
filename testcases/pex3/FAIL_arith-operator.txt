@@ -1,0 +1,7 @@
+// we check if we can add two non-matching datatypes
+
+function main() {
+	int x;
+	
+	x = 1 + "string"; // fail here
+}

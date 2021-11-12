@@ -1,0 +1,7 @@
+constant string c = "\"test\"-M.Scott";
+
+function main() {
+	if (3 == 3.2) {
+		int a;
+	}
+}

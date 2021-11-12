@@ -1,0 +1,14 @@
+// Testing type-matching between declarations within function arguments and
+//     function definition.
+
+function foo(int a, int c) {
+    int x;
+    x = a + 5;
+	x = x + c;
+}
+
+function main() {
+    int s;
+    string b;
+    foo(b, s); // should fail as b is not an int and foo requires first arg int
+}

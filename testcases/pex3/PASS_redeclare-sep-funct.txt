@@ -1,0 +1,11 @@
+// we check if we can redeclare variables outside scope of funciton
+
+function foo(int a) {
+	a = 3;
+}
+
+
+function main() {
+	int a;
+	a = 3;
+}

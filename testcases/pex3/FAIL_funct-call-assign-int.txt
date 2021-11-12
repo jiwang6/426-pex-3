@@ -1,0 +1,11 @@
+// we check if we can assign a number to another number through a function
+
+function foo(int a) {
+	a = 2;
+}
+
+
+function main() {
+	int a;
+	foo(2);
+}

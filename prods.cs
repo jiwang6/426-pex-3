@@ -76,6 +76,10 @@ public abstract class PExpression : Node
 {
 }
 
+public abstract class PExpression8 : Node
+{
+}
+
 public abstract class PExpression7 : Node
 {
 }
@@ -4312,51 +4316,47 @@ public sealed class APassParameters : PParameters
     }
 
 }
-public sealed class AOrComparisonExpression : PExpression
+public sealed class ANegateExpression : PExpression
 {
-    private PExpression _expression_;
-    private TOr _or_;
-    private PExpression7 _expression7_;
+    private TNot _not_;
+    private PExpression8 _expression8_;
 
-    public AOrComparisonExpression ()
+    public ANegateExpression ()
     {
     }
 
-    public AOrComparisonExpression (
-            PExpression _expression_,
-            TOr _or_,
-            PExpression7 _expression7_
+    public ANegateExpression (
+            TNot _not_,
+            PExpression8 _expression8_
     )
     {
-        SetExpression (_expression_);
-        SetOr (_or_);
-        SetExpression7 (_expression7_);
+        SetNot (_not_);
+        SetExpression8 (_expression8_);
     }
 
     public override Object Clone()
     {
-        return new AOrComparisonExpression (
-            (PExpression)CloneNode (_expression_),
-            (TOr)CloneNode (_or_),
-            (PExpression7)CloneNode (_expression7_)
+        return new ANegateExpression (
+            (TNot)CloneNode (_not_),
+            (PExpression8)CloneNode (_expression8_)
         );
     }
 
     public override void Apply(Switch sw)
     {
-        ((Analysis) sw).CaseAOrComparisonExpression(this);
+        ((Analysis) sw).CaseANegateExpression(this);
     }
 
-    public PExpression GetExpression ()
+    public TNot GetNot ()
     {
-        return _expression_;
+        return _not_;
     }
 
-    public void SetExpression (PExpression node)
+    public void SetNot (TNot node)
     {
-        if(_expression_ != null)
+        if(_not_ != null)
         {
-            _expression_.Parent(null);
+            _not_.Parent(null);
         }
 
         if(node != null)
@@ -4369,7 +4369,206 @@ public sealed class AOrComparisonExpression : PExpression
             node.Parent(this);
         }
 
-        _expression_ = node;
+        _not_ = node;
+    }
+    public PExpression8 GetExpression8 ()
+    {
+        return _expression8_;
+    }
+
+    public void SetExpression8 (PExpression8 node)
+    {
+        if(_expression8_ != null)
+        {
+            _expression8_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression8_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_not_)
+            + ToString (_expression8_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _not_ == child )
+        {
+            _not_ = null;
+            return;
+        }
+        if ( _expression8_ == child )
+        {
+            _expression8_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _not_ == oldChild )
+        {
+            SetNot ((TNot) newChild);
+            return;
+        }
+        if ( _expression8_ == oldChild )
+        {
+            SetExpression8 ((PExpression8) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class APassExpression : PExpression
+{
+    private PExpression8 _expression8_;
+
+    public APassExpression ()
+    {
+    }
+
+    public APassExpression (
+            PExpression8 _expression8_
+    )
+    {
+        SetExpression8 (_expression8_);
+    }
+
+    public override Object Clone()
+    {
+        return new APassExpression (
+            (PExpression8)CloneNode (_expression8_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAPassExpression(this);
+    }
+
+    public PExpression8 GetExpression8 ()
+    {
+        return _expression8_;
+    }
+
+    public void SetExpression8 (PExpression8 node)
+    {
+        if(_expression8_ != null)
+        {
+            _expression8_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression8_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_expression8_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _expression8_ == child )
+        {
+            _expression8_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _expression8_ == oldChild )
+        {
+            SetExpression8 ((PExpression8) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class AOrComparisonExpression8 : PExpression8
+{
+    private PExpression8 _expression8_;
+    private TOr _or_;
+    private PExpression7 _expression7_;
+
+    public AOrComparisonExpression8 ()
+    {
+    }
+
+    public AOrComparisonExpression8 (
+            PExpression8 _expression8_,
+            TOr _or_,
+            PExpression7 _expression7_
+    )
+    {
+        SetExpression8 (_expression8_);
+        SetOr (_or_);
+        SetExpression7 (_expression7_);
+    }
+
+    public override Object Clone()
+    {
+        return new AOrComparisonExpression8 (
+            (PExpression8)CloneNode (_expression8_),
+            (TOr)CloneNode (_or_),
+            (PExpression7)CloneNode (_expression7_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAOrComparisonExpression8(this);
+    }
+
+    public PExpression8 GetExpression8 ()
+    {
+        return _expression8_;
+    }
+
+    public void SetExpression8 (PExpression8 node)
+    {
+        if(_expression8_ != null)
+        {
+            _expression8_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _expression8_ = node;
     }
     public TOr GetOr ()
     {
@@ -4423,7 +4622,7 @@ public sealed class AOrComparisonExpression : PExpression
     public override string ToString()
     {
         return ""
-            + ToString (_expression_)
+            + ToString (_expression8_)
             + ToString (_or_)
             + ToString (_expression7_)
         ;
@@ -4431,9 +4630,9 @@ public sealed class AOrComparisonExpression : PExpression
 
     internal override void RemoveChild(Node child)
     {
-        if ( _expression_ == child )
+        if ( _expression8_ == child )
         {
-            _expression_ = null;
+            _expression8_ = null;
             return;
         }
         if ( _or_ == child )
@@ -4450,9 +4649,9 @@ public sealed class AOrComparisonExpression : PExpression
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _expression_ == oldChild )
+        if ( _expression8_ == oldChild )
         {
-            SetExpression ((PExpression) newChild);
+            SetExpression8 ((PExpression8) newChild);
             return;
         }
         if ( _or_ == oldChild )
@@ -4468,15 +4667,15 @@ public sealed class AOrComparisonExpression : PExpression
     }
 
 }
-public sealed class APassExpression : PExpression
+public sealed class APassExpression8 : PExpression8
 {
     private PExpression7 _expression7_;
 
-    public APassExpression ()
+    public APassExpression8 ()
     {
     }
 
-    public APassExpression (
+    public APassExpression8 (
             PExpression7 _expression7_
     )
     {
@@ -4485,14 +4684,14 @@ public sealed class APassExpression : PExpression
 
     public override Object Clone()
     {
-        return new APassExpression (
+        return new APassExpression8 (
             (PExpression7)CloneNode (_expression7_)
         );
     }
 
     public override void Apply(Switch sw)
     {
-        ((Analysis) sw).CaseAPassExpression(this);
+        ((Analysis) sw).CaseAPassExpression8(this);
     }
 
     public PExpression7 GetExpression7 ()

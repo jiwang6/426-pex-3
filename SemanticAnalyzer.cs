@@ -34,15 +34,15 @@ namespace CS426.analysis
             intDefinition.name = "int";
 
             // Create Definition for Float
-            // Definition floatDefinition = new NumberDefinition();
-            // intDefinition.name = "float";
+            Definition floatDefinition = new NumberDefinition();
+            floatDefinition.name = "float";
 
             // Create Definition for Strings
             Definition strDefinition = new StringDefinition();
             strDefinition.name = "string";
 
             globalSymbolTable.Add("int", intDefinition);
-            // globalSymbolTable.Add("float", intDefinition);
+            globalSymbolTable.Add("float", floatDefinition);
             globalSymbolTable.Add("string", strDefinition);
         }
 
@@ -59,7 +59,7 @@ namespace CS426.analysis
             decoratedParseTree.Add(node, intDefinition);
         }
 
-        /* public override void OutAFloatOperand(AFloatOperand node)
+        public override void OutAFloatOperand(AFloatOperand node)
         {
             // Creates the Definition Object we will add to our parse tree
             Definition floatDefinition = new NumberDefinition();
@@ -68,7 +68,7 @@ namespace CS426.analysis
             // Adds this node to the decorated parse tree
             decoratedParseTree.Add(node, floatDefinition);
         }
-        */
+        
 
         public override void OutAStringOperand(AStringOperand node)
         {
@@ -90,7 +90,7 @@ namespace CS426.analysis
             Definition varDefinition;
             
             // Checks the symbol table to see if the variable has been declared
-            if (!localSymbolTable.TryGetValue(varName, out varDefinition))
+            if (!localSymbolTable.TryGetValue(varName, out varDefinition) && !globalSymbolTable.TryGetValue(varName, out varDefinition))
             {
                 // Prints out a warning that the variable does not exist
                 PrintWarning(node.GetId(), "Variable " + varName + " does not exist");
@@ -405,7 +405,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -438,7 +440,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -471,7 +475,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -504,7 +510,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, firstExpression4Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -557,7 +565,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, expression6Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -590,7 +600,9 @@ namespace CS426.analysis
             }
             else
             {
-                decoratedParseTree.Add(node, expression6Def);
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -614,11 +626,44 @@ namespace CS426.analysis
             }
         }
 
+        public override void OutAAndComparisonExpression7(AAndComparisonExpression7 node)
+        {
+            Definition expression7Def;
+            Definition expression6Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression7(), out expression7Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression6(), out expression6Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression7Def.GetType() != expression6Def.GetType())
+            {
+                PrintWarning(node.GetAnd(), "Cannot complete AND operation of different types");
+            }
+            else if (expression7Def.name != "bool")
+            {
+                PrintWarning(node.GetAnd(), "Type must be boolean for AND operation");
+            }
+            else
+            {
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
+            }
+        }
+
         // --------------------------------------------------------------
-        // EXPRESSION
+        // EXPRESSION8
         // --------------------------------------------------------------
 
-        public override void OutAPassExpression(APassExpression node)
+        public override void OutAPassExpression8(APassExpression8 node)
         {
             Definition expression7Def;
 
@@ -631,6 +676,81 @@ namespace CS426.analysis
             else
             {
                 decoratedParseTree.Add(node, expression7Def);
+            }
+        }
+
+        public override void OutAOrComparisonExpression8(AOrComparisonExpression8 node)
+        {
+            Definition expression8Def;
+            Definition expression7Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression7(), out expression7Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression8(), out expression8Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression7Def.GetType() != expression8Def.GetType())
+            {
+                PrintWarning(node.GetOr(), "Cannot complete OR operation of different types");
+            }
+            else if (expression8Def.name != "bool")
+            {
+                PrintWarning(node.GetOr(), "Type must be boolean for OR operation");
+            }
+            else
+            {
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // EXPRESSION
+        // --------------------------------------------------------------
+
+        public override void OutAPassExpression(APassExpression node)
+        {
+            Definition expression8Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression8(), out expression8Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else
+            {
+                decoratedParseTree.Add(node, expression8Def);
+            }
+        }
+
+        public override void OutANegateExpression(ANegateExpression node)
+        {
+            Definition expression8Def;
+
+            if (!decoratedParseTree.TryGetValue(node.GetExpression8(), out expression8Def))
+            {
+                // We are checking to see if the node below us was decorated.
+                // We don't have to print an error, because if something bad happened
+                // the error would have been printed at the lower node.
+            }
+            else if (expression8Def.name != "bool")
+            {
+                PrintWarning(node.GetNot(), "Type must be boolean for NOT operation");
+            }
+            else
+            {
+                VariableDefinition v = new VariableDefinition();
+                v.name = "bool";
+                decoratedParseTree.Add(node, v);
             }
         }
 
@@ -672,7 +792,11 @@ namespace CS426.analysis
             Definition idDef;
             Definition expressionDef;
 
-            if (!localSymbolTable.TryGetValue(node.GetId().Text, out idDef))
+            if (globalSymbolTable.TryGetValue(node.GetId().Text, out idDef))
+            {
+                PrintWarning(node.GetId(), "ID " + node.GetId().Text + " is a constant and cannot be reassigned");
+            }
+            else if (!localSymbolTable.TryGetValue(node.GetId().Text, out idDef))
             {
                 PrintWarning(node.GetId(), "ID " + node.GetId().Text + " does not exist");
             }
@@ -710,6 +834,10 @@ namespace CS426.analysis
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
             }
+            else if (expressionDef.name != "bool")
+            {
+                PrintWarning(node.GetKeywordWhile(), "Condition for while statement must be boolean");
+            }
             else
             {
                 decoratedParseTree.Add(node, expressionDef);
@@ -728,6 +856,10 @@ namespace CS426.analysis
                 // We are checking to see if the node below us was decorated.
                 // We don't have to print an error, because if something bad happened
                 // the error would have been printed at the lower node.
+            }
+            else if (expressionDef.name != "bool")
+            {
+                PrintWarning(node.GetKeywordIf(), "Condition for if statement must be boolean");
             }
             else
             {
@@ -912,10 +1044,11 @@ namespace CS426.analysis
         // --------------------------------------------------------------
         // CONSTANTS
         // --------------------------------------------------------------
-        public override void InAConstants(AConstants node)
+        public override void OutAConstants(AConstants node)
         { 
             Definition typeDef;
             Definition idDef;
+            Definition expressionDef;
 
             if (!globalSymbolTable.TryGetValue(node.GetType().Text, out typeDef))
             {
@@ -928,6 +1061,10 @@ namespace CS426.analysis
                 PrintWarning(node.GetVarname(), "ID " + node.GetVarname().Text
                     + " has already been declared");
             }
+            else if (!decoratedParseTree.TryGetValue(node.GetExpression(), out expressionDef))
+            {
+                // catch error earlier on
+            }
             else
             {
                 // Add the id to the symbol table
@@ -935,7 +1072,14 @@ namespace CS426.analysis
                 newVariableDefinition.name = node.GetVarname().Text;
                 newVariableDefinition.variableType = (TypeDefinition)typeDef;
 
+                if (newVariableDefinition.variableType.toString() != expressionDef.name)
+                {
+                    PrintWarning(node.GetKeywordConstant(), "Cannot assign value of type " + expressionDef.name
+                        + " to variable of type " + newVariableDefinition.variableType.toString());
+                }
+
                 globalSymbolTable.Add(node.GetVarname().Text, newVariableDefinition);
+              
             }
         }
     }

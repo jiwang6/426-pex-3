@@ -1,0 +1,12 @@
+// we check if we can call funct with unassigned variables
+
+function bool (int x, int y) {
+	x = 2022;
+}
+
+function main() {
+	int a;
+	int b;
+	
+	bool(a, b);
+}

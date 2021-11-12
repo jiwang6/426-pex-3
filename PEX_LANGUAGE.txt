@@ -36,8 +36,8 @@ Tokens
 	eol = ';';
 
 	// Strings
-	escape_quote = '\”';
-	string = '“' ([[0 .. 0xffff] - [10 + 13]])* '”';
+	escape_quote = '\"';
+	string = '"' ([[0 .. 0xffff] - [10 + 13]])* '"';
 
 	left_parenthesis = '(';
 	right_parenthesis = ')';
@@ -89,7 +89,8 @@ Productions
 
 	parameters = {one} expression | {multiple} parameters comma expression | {pass} ;
 
-	expression = {or_comparison} expression or expression7 | {pass} expression7;
+	expression = {negate} not expression8 | {pass} expression8;
+	expression8 = {or_comparison} expression8 or expression7 | {pass} expression7;
 	expression7 = {and_comparison} expression7 and expression6 | {pass} expression6;
 	expression6 = {equals} expression6 equivalent expression5 | {not_equal} expression6 not_equivalent expression5 | {pass} expression5;
 	expression5 = {greater_than} [first]:expression4 greater_than [second]:expression4 | {less_than} [first]:expression4 less_than [second]:expression4 | 

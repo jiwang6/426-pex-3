@@ -1,0 +1,10 @@
+// we check scope of function declared arguments
+
+function foo(int a, int b) {
+	a = 3;
+}
+
+
+function main() {
+	a = 3;
+}
